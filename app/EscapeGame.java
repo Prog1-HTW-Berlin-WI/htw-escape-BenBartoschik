@@ -3,6 +3,13 @@ package app;
 import model.Hero;
 import model.HTWRoom;
 
+/*
+@author: Ben Bartoschik und emmanuel bessong
+
+Dies ist die haubtklasse für die spiellogic hier werden die räume und der held initialisiert.
+und so alles was das spiel ausmacht.
+*/
+
 public class EscapeGame {
     private final Hero hero;
     private final HTWRoom[] rooms = new HTWRoom[3];

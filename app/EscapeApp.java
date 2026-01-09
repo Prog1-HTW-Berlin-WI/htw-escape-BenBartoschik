@@ -7,6 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
+/*
+@ author: Ben Bartoschik und emmanuel bessong
+
+Das ist die haubt klasse des spiels. Hier wird das spiel gestartet und das menü angezeigt.
+*/
 public class EscapeApp {
 
     public static final String SAVE_FILE_NAME = "save";
