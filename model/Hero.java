@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 public class Hero implements Serializable {
 
+
+    String name;
+    int healthPoints;
+    int experiencePoints;
+    Lecturer[] signedExerciseLeaders;
+
     // Bitte serialVersionUID beibehalten, damit die Klasse bei der
     // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
     // konsistent bleibt und Versionierungsprobleme vermieden werden.
