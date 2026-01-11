@@ -36,6 +36,10 @@ public class EscapeApp {
         System.out.println("You're in the main menu");
         System.out.println("What do you want to do next?");
         System.out.println("(1) Start new game");
+        System.out.println("(2) Resume game");
+        System.out.println("(3) Save game");
+        System.out.println("(4) Load game");
+        System.out.println("(5) Delete saved game");
         System.out.println("(6) Quit");
         System.out.println("");
         System.out.println("Please choose a number between 1 and 6: ");
@@ -54,9 +58,32 @@ public class EscapeApp {
                 this.startGame();
                 break;
             case "2":
+                if (isGameRunning() && !isGameFinished()) {
+                    resumeGame();
+                } else {
+                    System.out.println("No game is currently running. Please start a new game or load a saved game.");
+                }
                 break;
-            // ...
+            case "3":
+                if (isGameRunning()) {
+                    saveGame();
+                } else {
+                    System.out.println("No game is currently running. Please start a new game or load a saved game.");
+                }
+                break;
+            case "4":
+                if (hasSavedGame()) {
+                    loadGame();
+                } else {
+                    System.out.println("No saved game found. Please start a new game.");
+                }
+                break;
+            case "5":
+                deleteGame();
+                break;
             case "6":
+                System.out.println("Quitting the game. Goodbye!");
+                this.gameRunning = false;
                 break;
             default:
                 System.out.println("Invalid input. Please choose a correct number between 1 and 6");
