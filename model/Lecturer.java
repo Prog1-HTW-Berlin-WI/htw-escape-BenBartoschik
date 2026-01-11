@@ -4,8 +4,23 @@ import java.io.Serializable;
 
 public class Lecturer implements Serializable {
 
-    // Bitte serialVersionUID beibehalten, damit die Klasse bei der
-    // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
-    // konsistent bleibt und Versionierungsprobleme vermieden werden.
-    private static final long serialVersionUID = 540082607047283589L;
+    private String name = "Prof. Gärtner";
+    private boolean hasSigned = false;
+
+   public boolean isReadyToSign() {
+        if (!hasSigned) {
+            sign();
+            return true;
+        }
+            
+        else{
+            return false;
+        }
+
+    }
+
+    private void sign() {
+        this.hasSigned = true;
+    }
+       private static final long serialVersionUID = 540082607047283589L;
 }
