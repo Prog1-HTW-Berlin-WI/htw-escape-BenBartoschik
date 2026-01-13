@@ -19,6 +19,7 @@ public class Hero implements Serializable {
         }
 
     }
+
     public void regenerate(boolean longRest){
 
         if(longRest == false){
@@ -31,6 +32,7 @@ public class Hero implements Serializable {
             healthPoints = 50;
         }
     }
+
     public boolean flee(){
 
         double wahrscheinlichkeit = Math.random();
@@ -40,13 +42,54 @@ public class Hero implements Serializable {
             return false;
         }
     }
+
     public int attack(){
         
+        double grundschaden = experiencePoints * 2.3 + 1;
+        int schaden = (int)grundschaden;
 
-
+        double zufallsgenerator = Math.random();
+        if(zufallsgenerator < 0.13){
+            return 0;
+        }
+        else if(zufallsgenerator < 0.25){
+            return schaden * 2;
+        }else{
+            return schaden;
+        }
     }
 
+    public void signExerciseLeader(Lecturer lecturer) {
+        for (int i = 0; i < signedExerciseLeaders.length; i++) {
+             if (signedExerciseLeaders[i] == lecturer){
+                return;
+             }
+            
+        
+        }
+        for (int i = 0; i < signedExerciseLeaders.length; i++) {
+             if (signedExerciseLeaders[i] == null){
+                signedExerciseLeaders[i] = lecturer;
+                return;
+             }
+         }
+   }
 
+   public int getExperiencePoints(){
+        return experiencePoints;
+   }
+
+   public void addExperiencePoints(int experiencePoints){
+        this.experiencePoints = this.experiencePoints + experiencePoints;
+   }
+
+   public boolean isOperational(){
+        if(healthPoints > 0){
+            return true;
+        }else{
+            return false;
+        }
+   }
 
     // Bitte serialVersionUID beibehalten, damit die Klasse bei der
     // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
