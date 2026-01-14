@@ -5,6 +5,11 @@ import java.io.Serializable;
 
 public class HTWRoom implements Serializable {
 
+    String identifier;
+    String description;
+    Lecturer lecturer;
+
+
     // Bitte serialVersionUID beibehalten, damit die Klasse bei der
     // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
     // konsistent bleibt und Versionierungsprobleme vermieden werden.
