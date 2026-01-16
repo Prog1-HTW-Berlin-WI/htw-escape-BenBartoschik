@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 public class HTWRoom implements Serializable {
 
+    /**
+     *
+     */
     String identifier;
     String description;
     Lecturer lecturer;

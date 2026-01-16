@@ -2,6 +2,7 @@ package app;
 
 import model.Hero;
 import model.HTWRoom;
+import java.util.Scanner;
 
 /*
 @author: Ben Bartoschik und emmanuel bessong
@@ -43,4 +44,25 @@ public class EscapeGame {
     public Hero getHero() {
         return hero;
     }
+
+    public void gameMenu(){
+
+    }
+   /* 
+    public void characterName() {
+    Scanner sc = new Scanner(System.in);
+    System.out.println("Bitte geben Sie Ihren Namen ein:");
+    String name = sc.nextLine();
+    this.hero = new Hero(name);
+}
+    */
+
+   
+
+
+
+
+
+
+
 }
