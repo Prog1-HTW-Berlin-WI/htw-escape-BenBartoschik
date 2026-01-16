@@ -10,7 +10,7 @@ import java.util.Scanner;
 /*
 @ author: Ben Bartoschik und emmanuel bessong
 
-Das ist die haubt klasse des spiels. Hier wird das spiel gestartet und das menü angezeigt.
+Das ist die Hauptklasse des Spiels. Hier wird das Spiel gestartet und das Menü angezeigt.
 */
 public class EscapeApp {
 

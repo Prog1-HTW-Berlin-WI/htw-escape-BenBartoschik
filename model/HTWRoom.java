@@ -5,9 +5,30 @@ import java.io.Serializable;
 
 public class HTWRoom implements Serializable {
 
-    String identifier;
-    String description;
-    Lecturer lecturer;
+    /**
+     *
+     */
+    private String identifier;
+    private String description;
+    private Lecturer lecturer;
+
+    public HTWRoom(String identifier, String description, Lecturer lecturer){
+        this.identifier = identifier;
+        this.description = description;
+        this.lecturer = lecturer;
+    }
+        
+        public String getIdentifier(){
+            return identifier;
+        }
+
+        public String getDescription(){
+            return description;
+        }
+        public Lecturer getLecturer(){
+            return lecturer;
+        }
+    
 
 
     // Bitte serialVersionUID beibehalten, damit die Klasse bei der
