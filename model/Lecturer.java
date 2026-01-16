@@ -30,3 +30,8 @@ public class Lecturer implements Serializable {
         return name;
     }
 }
+/**
+ * langweilig
+ * darf man einfach pro getroffen lehrer eine signatur holen?
+ * spiel so schnell aber übersichtlich
+ */

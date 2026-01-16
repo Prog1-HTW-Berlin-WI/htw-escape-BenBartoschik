@@ -49,11 +49,12 @@ public class EscapeGame {
 
     }
    /* 
-    public void characterName() {
-    Scanner sc = new Scanner(System.in);
-    System.out.println("Bitte geben Sie Ihren Namen ein:");
-    String name = sc.nextLine();
-    this.hero = new Hero(name);
+noch hinzuzufügen 
+
+liste der Lehrer
+liste der räume
+verbindung operational
+beim spielstart zuweisung von räumen und lehrern
 }
     */
 
