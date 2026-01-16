@@ -4,23 +4,29 @@ import java.io.Serializable;
 
 public class Lecturer implements Serializable {
 
-    private String name = "Prof. Gärtner";
-    private boolean hasSigned = false;
+    private static final long serialVersionUID = 540082607047283589L;
 
-   public boolean isReadyToSign() {
-        if (!hasSigned) {
-            sign();
-            return true;
-        }
-            
-        else{
-            return false;
-        }
+    private String name;
+    private boolean hasSigned;
 
+    public Lecturer(String name) {
+        this.name = name;
+        this.hasSigned = false;
     }
 
-    private void sign() {
+    public boolean isReadyToSign() {
+        return !hasSigned;
+    }
+
+    public void sign() {
         this.hasSigned = true;
     }
-       private static final long serialVersionUID = 540082607047283589L;
+
+    public boolean hasSigned() {
+        return hasSigned;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
