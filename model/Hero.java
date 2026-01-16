@@ -10,6 +10,14 @@ public class Hero implements Serializable {
     int experiencePoints;
     Lecturer[] signedExerciseLeaders;
 
+   
+    public Hero(String name) {
+        this.name = name;
+        this.healthPoints = 50;
+        this.experiencePoints = 0;
+        this.signedExerciseLeaders = new Lecturer[5]; 
+    }
+
     public void takeDamage(int amount){
 
         healthPoints = healthPoints - amount;
@@ -64,8 +72,6 @@ public class Hero implements Serializable {
              if (signedExerciseLeaders[i] == lecturer){
                 return;
              }
-            
-        
         }
         for (int i = 0; i < signedExerciseLeaders.length; i++) {
              if (signedExerciseLeaders[i] == null){
@@ -90,6 +96,14 @@ public class Hero implements Serializable {
             return false;
         }
    }
+
+    public String getName() {
+        return name;
+    }
+    
+    public int getHealthPoints() {
+        return healthPoints;
+    }
 
     // Bitte serialVersionUID beibehalten, damit die Klasse bei der
     // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
