@@ -4,11 +4,22 @@ import java.io.Serializable;
 
 public class Hero implements Serializable {
 
+    private static final int DREILEBENSPUNKTE = 3;
 
-    String name;
-    int healthPoints;
-    int experiencePoints;
-    Lecturer[] signedExerciseLeaders;
+
+    private static final int ZEHNLEBENSPUNKTE = 10;
+
+
+    private static final int HEALTHPOINTS = 50;
+
+
+    private static final long serialVersionUID = 3578735620108186013L;
+
+
+    private String name;
+    private int healthPoints;
+    private int experiencePoints;
+    private Lecturer[] signedExerciseLeaders;
 
    
     public Hero(String name) {
@@ -31,13 +42,13 @@ public class Hero implements Serializable {
     public void regenerate(boolean longRest){
 
         if(longRest == false){
-            healthPoints = healthPoints + 3;
+            healthPoints = healthPoints + DREILEBENSPUNKTE;
         }
         if(longRest == true){
-            healthPoints = healthPoints + 10;
+            healthPoints = healthPoints + ZEHNLEBENSPUNKTE;
         }
         if (healthPoints > 50){
-            healthPoints = 50;
+            healthPoints = HEALTHPOINTS;
         }
     }
 
@@ -104,9 +115,5 @@ public class Hero implements Serializable {
     public int getHealthPoints() {
         return healthPoints;
     }
-
-    // Bitte serialVersionUID beibehalten, damit die Klasse bei der
-    // Speicherung als Datei (Serialisierung) und beim Laden (Deserialisierung)
-    // konsistent bleibt und Versionierungsprobleme vermieden werden.
-    private static final long serialVersionUID = 3578735620108186013L;
+    
 }

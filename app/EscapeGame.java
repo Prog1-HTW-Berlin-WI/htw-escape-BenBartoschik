@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 /*
 @author: Ben Bartoschik und emmanuel bessong
-
 Dies ist die haubtklasse für die spiellogic hier werden die räume und der held initialisiert.
 und so alles was das spiel ausmacht.
 */
