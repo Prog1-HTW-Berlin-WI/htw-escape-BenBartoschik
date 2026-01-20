@@ -72,15 +72,41 @@ beim spielstart zuweisung von räumen und lehrern
  
 
 
-   private void mainMenu(String menuInput){
-    switch (menuInput) {
+   private void mainMenu(){
+
+    boolean exit = false;
+
+    while(exit == false){
+
+        mainMenuoptions(); 
+        String menuInput = mainMenuinput();
+
+        switch (menuInput) {
         case "1":
-            
+            hochschuleErkunden();
             break;
-    
+        case "2":
+            heroStatusanzeigen();
+            break;
+        case "3":
+            laufzettelAnzeigen();
+            break;
+        case "4":
+            verschnaufPausemachen();
+            break;
+        case "5":
+            spielVerlassen();
+            exit = true;
+            break;
         default:
+            System.out.println("Deine Eingabe ist ungültig, bitte verssuche es erneut.");
             break;
     }
+    }
+    
+
+    
+    
 
    }
 
