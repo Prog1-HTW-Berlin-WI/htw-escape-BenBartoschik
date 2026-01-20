@@ -56,6 +56,36 @@ verbindung operational
 beim spielstart zuweisung von räumen und lehrern
 }
     */
+   private void mainMenuoptions(){ 
+        System.out.println("(1) Hochschule erkunden");
+        System.out.println("(2) Hero Status anzeigen");
+        System.out.println("(3) Laufzettel anzeigen");
+        System.out.println("(4) Verschnaufpause machen");
+        System.out.println("(5) Spiel verlassen");
+   }
+
+    private String mainMenuinput() {
+        Scanner sc1 = new Scanner(System.in);
+        String menuInput = sc1.nextLine();
+        return menuInput;
+    }
+ 
+
+
+   private void mainMenu(String menuInput){
+    switch (menuInput) {
+        case "1":
+            
+            break;
+    
+        default:
+            break;
+    }
+
+   }
+
+
+
 
    
 
