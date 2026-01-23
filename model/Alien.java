@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Abstrakte Klasse, die einen Alien im Spiel repräsentiert.
  * Ein Alien hat einen Namen, Lebenspunkte, eine Freundlichkeitseigenschaft/Agresivität und eine Begrüßung.
  */
 
-public abstract class Alien {
+public abstract class Alien implements Serializable {
 
     private static final long serialVersionUID = 1729389822767173584L;
 

@@ -1,4 +1,6 @@
 package app;
+import java.io.Serializable;
+
 
 import model.Hero;
 import model.Alien;
@@ -17,7 +19,7 @@ Dies ist die haubtklasse für die spiellogic hier werden die räume und der held
 und so alles was das spiel ausmacht.
 */
 
-public class EscapeGame {
+public class EscapeGame implements Serializable {
     private Hero hero;   //ist es in Ordnung das final zu entnehmen 
     private final HTWRoom[] rooms = new HTWRoom[6];
     private final Lecturer[] lecturers = new Lecturer[6];
@@ -25,6 +27,7 @@ public class EscapeGame {
     private boolean gameFinished = false;
     private int round = 1;
     private boolean smallRestUsedThisRound = false;
+    private static final long serialVersionUID = 1729389822767173584L;
 
         /*  
         * Initialisiert die Welt mit Räumen und Dozenten.

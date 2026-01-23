@@ -1,4 +1,5 @@
 package app;
+import java.io.Serializable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +13,13 @@ import java.util.Scanner;
 
 Das ist die haubt klasse des spiels. Hier wird das spiel gestartet und das menü angezeigt.
 */
-public class EscapeApp {
+public class EscapeApp implements Serializable {
 
     public static final String SAVE_FILE_NAME = "save";
     private EscapeGame game;
     private boolean gameRunning = true;
+
+    private static final long serialVersionUID = 1729389822767173584L;
 
     public static void main(String[] args) {
         System.out.println("Welcome to the HTW escape");
