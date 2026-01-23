@@ -24,7 +24,7 @@ public class EscapeApp {
 
         EscapeApp app = new EscapeApp();
 
-        while (true) {
+        while (app.gameRunning) {
             app.showMainMenu();
             String choice = app.readUserInput();
             app.handleUserInput(choice);
