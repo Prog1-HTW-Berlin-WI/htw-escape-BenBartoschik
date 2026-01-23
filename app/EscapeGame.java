@@ -155,7 +155,7 @@ public class EscapeGame {
 
     // zu 20% passiert nichts
     if (r < 0.20) {
-        System.out.println("Nichts Besonderes passiert.");
+        System.out.println("I found nothing interesting here. WoW ");
         endRound();
         return;
     }
