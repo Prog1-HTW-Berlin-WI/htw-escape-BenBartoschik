@@ -141,9 +141,7 @@ beim spielstart zuweisung von räumen und lehrern
     }
 
    }
-   private void hochschuleErkunden(){
 
-   }
     private void hochschuleErkunden() {
     if (gameFinished) return;
 
@@ -292,8 +290,10 @@ private void alienEncounter() {
         System.out.println("(1) Angreifen");
         System.out.println("(2) Fliehen");
 
+        
         String choice = mainMenuinput();
-
+    
+       
         if ("2".equals(choice)) {
             if (hero.flee()) {
                 System.out.println("Flucht gelungen.");
