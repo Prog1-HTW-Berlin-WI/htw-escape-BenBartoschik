@@ -3,6 +3,7 @@ package app;
 import model.Hero;
 import model.HTWRoom;
 import java.util.Scanner;
+import model.Lecturer;
 
 /*
 @author: Ben Bartoschik und emmanuel bessong
@@ -13,8 +14,22 @@ und so alles was das spiel ausmacht.
 public class EscapeGame {
     private Hero hero;   //ist es in Ordnung das final zu entnehmen 
     private final HTWRoom[] rooms = new HTWRoom[3];
+    private final Lecturer[] lecturers = new Lecturer[3];
     private boolean gameRunning = true;
     private boolean gameFinished = false;
+    private int round = 1;
+    private boolean smallRestUsedThisRound = false;
+
+
+    private void initWorld() {
+        lecturers[0] = new Lecturer("Prof. Gärtner");
+        lecturers[1] = new Lecturer("Prof. Witt");
+        lecturers[2] = new Lecturer("Prof. Odebrecht");
+    
+        rooms[0] = new HTWRoom("101", "Großer Hörsaal.", lecturers[0]);
+        rooms[1] = new HTWRoom("202", "Übungsraum.", lecturers[1]);
+        rooms[2] = new HTWRoom("303", "Büro.", lecturers[2]);
+    }
 
     public EscapeGame() {
 
@@ -36,10 +51,6 @@ public class EscapeGame {
         this.gameFinished = gameFinished;
     }
 
-    /*public void run() {
-        System.out.println("The game has started. Or not?");
-    }
-    */
     public void run() {
         Scanner sc = new Scanner(System.in);
 
@@ -48,6 +59,7 @@ public class EscapeGame {
 
         hero = new Hero(name);
 
+        initWorld();
         mainMenu();
     }
 
@@ -120,20 +132,84 @@ beim spielstart zuweisung von räumen und lehrern
    private void hochschuleErkunden(){
 
    }
-   private void heroStatusanzeigen(){
+   private void heroStatusanzeigen() {
+    int signed = 0;
+    for (int i = 0; i < lecturers.length; i++) {
+        if (lecturers[i].hasSigned()) signed++;
+    }
 
-   }
-   private void laufzettelAnzeigen(){
+    System.out.println("=== HERO STATUS ===");
+    System.out.println("Name: " + hero.getName());
+    System.out.println("Leben: " + hero.getLifePoints());
+    System.out.println("XP: " + hero.getExperiencePoints());
+    System.out.println("Runde: " + round);
+    System.out.println("Laufzettel: " + signed + "/" + lecturers.length);
+}
+   
+private void laufzettelAnzeigen() {
+    System.out.println("=== LAUFZETTEL ===");
 
-   }
-   private void verschnaufPausemachen(){
+    int signed = 0;
 
-   }
+    for (int i = 0; i < lecturers.length; i++) {
+        if (lecturers[i].hasSigned()) {
+            System.out.println(lecturers[i].getName() + " ✔ unterschrieben");
+            signed++;
+        } else {
+            System.out.println(lecturers[i].getName() + " ✘ offen");
+        }
+    }
+
+    System.out.println("Unterschriften: " + signed + "/" + lecturers.length);
+}
+
+private void verschnaufPausemachen() {
+    System.out.println("(1) Kleine Verschnaufpause (+3 LP, pro Runde einmal)");
+    System.out.println("(2) Große Verschnaufpause (+10 LP, kostet eine ganze Runde)");
+    System.out.println("(0) Zurück");
+
+    String input = mainMenuinput();
+
+    switch (input) {
+        case "1":
+            if (smallRestUsedThisRound) {
+                System.out.println("Kleine Verschnaufpause wurde diese Runde bereits genutzt.");
+                return;
+            }
+            healHero(3);
+            smallRestUsedThisRound = true;
+            System.out.println("Du regenerierst 3 Lebenspunkte. Aktuell: " + hero.getLifePoints());
+            break;
+
+        case "2":
+            healHero(10);
+            System.out.println("Du regenerierst 10 Lebenspunkte. Aktuell: " + hero.getLifePoints());
+            endRound(); // komplette Runde verbraucht
+            break;
+
+        case "0":
+            break;
+
+        default:
+            System.out.println("Ungültige Eingabe.");
+    }
+}
+
    private void spielVerlassen(){
 
    }
 
+   private void healHero(int amount) {
+    int current = hero.getLifePoints();
+    int newValue = current + amount;
+    if (newValue > 50) newValue = 50;
+    hero.setLifePoints(newValue);
+}
 
+private void endRound() {
+    round++;
+    smallRestUsedThisRound = false;
+}
 
 
 
