@@ -11,13 +11,13 @@ und so alles was das spiel ausmacht.
 */
 
 public class EscapeGame {
-    private final Hero hero;
+    private Hero hero;   //ist es in Ordnung das final zu entnehmen 
     private final HTWRoom[] rooms = new HTWRoom[3];
     private boolean gameRunning = true;
     private boolean gameFinished = false;
 
     public EscapeGame() {
-        this.hero = new Hero();
+
     }
 
     public boolean isGameRunning() {
@@ -36,9 +36,21 @@ public class EscapeGame {
         this.gameFinished = gameFinished;
     }
 
-    public void run() {
+    /*public void run() {
         System.out.println("The game has started. Or not?");
     }
+    */
+    public void run() {
+        Scanner sc = new Scanner(System.in);
+
+         System.out.print("Bitte gib den Namen deines Helden ein: ");
+         String name = sc.nextLine();
+
+        hero = new Hero(name);
+
+        mainMenu();
+    }
+
 
     public Hero getHero() {
         return hero;
@@ -99,16 +111,28 @@ beim spielstart zuweisung von räumen und lehrern
             exit = true;
             break;
         default:
-            System.out.println("Deine Eingabe ist ungültig, bitte verssuche es erneut.");
+            System.out.println("Deine Eingabe ist ungültig, bitte versuche es erneut.");
             break;
     }
     }
-    
-
-    
-    
 
    }
+   private void hochschuleErkunden(){
+
+   }
+   private void heroStatusanzeigen(){
+
+   }
+   private void laufzettelAnzeigen(){
+
+   }
+   private void verschnaufPausemachen(){
+
+   }
+   private void spielVerlassen(){
+
+   }
+
 
 
 

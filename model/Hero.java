@@ -111,6 +111,9 @@ public class Hero implements Serializable {
     public String getName() {
         return name;
     }
+    public void setName(String name){
+        this.name = name;
+    }
     
     public int getHealthPoints() {
         return healthPoints;
