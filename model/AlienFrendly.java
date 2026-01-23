@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Repräsentiert einen freundlichen Alien im Spiel.
+ * Ein Freundliches Alien es soll keine Herausforderung für den Spieler darstellen.
+ */
 public class AlienFrendly extends Alien {
     
     public AlienFrendly() {

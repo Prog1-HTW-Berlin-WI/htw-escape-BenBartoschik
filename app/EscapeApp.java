@@ -32,12 +32,12 @@ public class EscapeApp {
         }
     }
 
-        // Menü anzeigen
+    // Menü anzeigen
     private void showMainMenu() {
         System.out.println("You're in the main menu");
         System.out.println("What do you want to do next?");
         System.out.println("(1) Start new game");
-    
+
         if (isGameRunning() && !isGameFinished()) {
             System.out.println("(2) Resume game");
         }
@@ -48,32 +48,34 @@ public class EscapeApp {
             System.out.println("(4) Load game");
             System.out.println("(5) Delete saved game");
         }
-    
+
         System.out.println("(6) Quit");
         System.out.println("");
         System.out.println("Please choose a number!");
     }
-    
-        // Benutzereingabe lesen
+
+    // Benutzereingabe lesen
     private String readUserInput() {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         return userInput;
     }
 
-        /**
-         * Benutzereingabe verarbeiten
-         * @param input
-         * Hier wird unterschieden was der benutzer machen will
-         * 1: neues spiel starten
-         * 2: spiel fortsetzen
-         * 3: spiel speichern
-         * 4: spiel laden
-         * 5: gespeichertes spiel löschen
-         * 6: spiel beenden
-         * default: ungültige eingabe
-         * also hier wird das haubtmenü des spiels difiniert und verweißt auf die entsprechenden methoden
-         */
+    /**
+     * Benutzereingabe verarbeiten
+     * 
+     * @param input
+     *              Hier wird unterschieden was der benutzer machen will
+     *              1: neues spiel starten
+     *              2: spiel fortsetzen
+     *              3: spiel speichern
+     *              4: spiel laden
+     *              5: gespeichertes spiel löschen
+     *              6: spiel beenden
+     *              default: ungültige eingabe
+     *              also hier wird das haubtmenü des spiels difiniert und verweißt
+     *              auf die entsprechenden methoden
+     */
 
     private void handleUserInput(String input) {
         switch (input) {
@@ -130,10 +132,10 @@ public class EscapeApp {
         }
     }
 
-        //Hier wird das spiel gespeichert
+    // Hier wird das spiel gespeichert
     private void saveGame() {
         try (FileOutputStream fos = new FileOutputStream(SAVE_FILE_NAME);
-             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(game);
             oos.flush();
         } catch (Exception ex) {
@@ -143,10 +145,10 @@ public class EscapeApp {
         System.out.println("Game saved!");
     }
 
-        //Hier wird das spiel geladen
+    // Hier wird das spiel geladen
     private void loadGame() {
         try (FileInputStream fis = new FileInputStream(SAVE_FILE_NAME);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
+                ObjectInputStream ois = new ObjectInputStream(fis)) {
             this.game = (EscapeGame) ois.readObject();
             System.out.println("Game loaded!");
         } catch (Exception ex) {

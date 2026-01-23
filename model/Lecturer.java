@@ -2,6 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * Repräsentiert die Dozenten im Spiel.
+ * Ein Dozent hat einen Namen und einen Status, ob er bereits unterschrieben hat.
+ */
+
 public class Lecturer implements Serializable {
 
     private static final long serialVersionUID = 540082607047283589L;

@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Abstrakte Klasse, die einen Alien im Spiel repräsentiert.
+ * Ein Alien hat einen Namen, Lebenspunkte, eine Freundlichkeitseigenschaft/Agresivität und eine Begrüßung.
+ */
+
 public abstract class Alien {
 
     private static final long serialVersionUID = 1729389822767173584L;

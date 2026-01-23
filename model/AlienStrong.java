@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Repräsentiert einen starken Alien im Spiel.
+ * Ein starker Alien soll die größte "herausforderung" für den Spieler darstellen.
+ */
+
 public class AlienStrong extends Alien {
 
     public AlienStrong() {
