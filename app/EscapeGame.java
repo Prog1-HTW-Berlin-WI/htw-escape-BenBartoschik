@@ -13,8 +13,8 @@ und so alles was das spiel ausmacht.
 
 public class EscapeGame {
     private Hero hero;   //ist es in Ordnung das final zu entnehmen 
-    private final HTWRoom[] rooms = new HTWRoom[3];
-    private final Lecturer[] lecturers = new Lecturer[3];
+    private final HTWRoom[] rooms = new HTWRoom[6];
+    private final Lecturer[] lecturers = new Lecturer[6];
     private boolean gameRunning = true;
     private boolean gameFinished = false;
     private int round = 1;
@@ -25,10 +25,16 @@ public class EscapeGame {
         lecturers[0] = new Lecturer("Prof. Gärtner");
         lecturers[1] = new Lecturer("Prof. Witt");
         lecturers[2] = new Lecturer("Prof. Odebrecht");
+        lecturers[3] = new Lecturer("Prof. Merkel");
+        lecturers[4] = new Lecturer("Prof. Schulz");
+        lecturers[5] = new Lecturer("Prof. Merz");
     
-        rooms[0] = new HTWRoom("101", "Großer Hörsaal.", lecturers[0]);
-        rooms[1] = new HTWRoom("202", "Übungsraum.", lecturers[1]);
-        rooms[2] = new HTWRoom("303", "Büro.", lecturers[2]);
+        rooms[0] = new HTWRoom("218", "Großer Hörsaal.", lecturers[0]);
+        rooms[1] = new HTWRoom("219", "Übungsraum.", lecturers[1]);
+        rooms[2] = new HTWRoom("220", "Büro.", lecturers[2]);
+        rooms[3] = new HTWRoom("221", "Büro.", lecturers[3]);
+        rooms[4] = new HTWRoom("222", "Büro.", lecturers[4]);
+        rooms[5] = new HTWRoom("223", "Büro.", lecturers[5]);
     }
 
     public EscapeGame() {
@@ -140,7 +146,7 @@ beim spielstart zuweisung von räumen und lehrern
 
     System.out.println("=== HERO STATUS ===");
     System.out.println("Name: " + hero.getName());
-    System.out.println("Leben: " + hero.getLifePoints());
+    System.out.println("Leben: " + hero.getHealthPoints());
     System.out.println("XP: " + hero.getExperiencePoints());
     System.out.println("Runde: " + round);
     System.out.println("Laufzettel: " + signed + "/" + lecturers.length);
@@ -153,10 +159,10 @@ private void laufzettelAnzeigen() {
 
     for (int i = 0; i < lecturers.length; i++) {
         if (lecturers[i].hasSigned()) {
-            System.out.println(lecturers[i].getName() + " ✔ unterschrieben");
+            System.out.println(lecturers[i].getName() + " [unterschrieben]");
             signed++;
         } else {
-            System.out.println(lecturers[i].getName() + " ✘ offen");
+            System.out.println(lecturers[i].getName() + " [/]");
         }
     }
 
@@ -178,12 +184,12 @@ private void verschnaufPausemachen() {
             }
             healHero(3);
             smallRestUsedThisRound = true;
-            System.out.println("Du regenerierst 3 Lebenspunkte. Aktuell: " + hero.getLifePoints());
+            System.out.println("Du regenerierst 3 Lebenspunkte. Aktuell: " + hero.getHealthPoints());
             break;
 
         case "2":
             healHero(10);
-            System.out.println("Du regenerierst 10 Lebenspunkte. Aktuell: " + hero.getLifePoints());
+            System.out.println("Du regenerierst 10 Lebenspunkte. Aktuell: " + hero.getHealthPoints());
             endRound(); // komplette Runde verbraucht
             break;
 
@@ -200,10 +206,10 @@ private void verschnaufPausemachen() {
    }
 
    private void healHero(int amount) {
-    int current = hero.getLifePoints();
+    int current = hero.getHealthPoints();
     int newValue = current + amount;
     if (newValue > 50) newValue = 50;
-    hero.setLifePoints(newValue);
+    hero.setHealthPoints(newValue);
 }
 
 private void endRound() {

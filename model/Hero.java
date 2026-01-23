@@ -118,5 +118,12 @@ public class Hero implements Serializable {
     public int getHealthPoints() {
         return healthPoints;
     }
+
+    public void setHealthPoints(int healthPoints) {
+        this.healthPoints = healthPoints;
+        if (this.healthPoints < 0) this.healthPoints = 0;
+        if (this.healthPoints > HEALTHPOINTS) this.healthPoints = HEALTHPOINTS;
+    }
+    
     
 }

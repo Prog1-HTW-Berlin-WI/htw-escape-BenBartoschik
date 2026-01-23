@@ -36,15 +36,23 @@ public class EscapeApp {
         System.out.println("You're in the main menu");
         System.out.println("What do you want to do next?");
         System.out.println("(1) Start new game");
-        System.out.println("(2) Resume game");
-        System.out.println("(3) Save game");
-        System.out.println("(4) Load game");
-        System.out.println("(5) Delete saved game");
+    
+        if (isGameRunning() && !isGameFinished()) {
+            System.out.println("(2) Resume game");
+        }
+        if (isGameRunning()) {
+            System.out.println("(3) Save game");
+        }
+        if (hasSavedGame()) {
+            System.out.println("(4) Load game");
+            System.out.println("(5) Delete saved game");
+        }
+    
         System.out.println("(6) Quit");
         System.out.println("");
-        System.out.println("Please choose a number between 1 and 6: ");
+        System.out.println("Please choose a number!");
     }
-
+    
     private String readUserInput() {
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
