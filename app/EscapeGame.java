@@ -26,7 +26,11 @@ public class EscapeGame {
     private int round = 1;
     private boolean smallRestUsedThisRound = false;
 
-
+        /*  
+        * Initialisiert die Welt mit Räumen und Dozenten.
+        * Es ist Gänig initWorld zur Welterstellung zu nutzen.
+        * es weißt außerdem den Dozenten die Räume zu.
+        */
     private void initWorld() {
         lecturers[0] = new Lecturer("Prof. Gärtner");
         lecturers[1] = new Lecturer("Prof. Witt");
@@ -63,6 +67,8 @@ public class EscapeGame {
         this.gameFinished = gameFinished;
     }
 
+    //Wird aufgerufen wenn ein neues spiel gestartet wird.
+    //und bezeichnet den hauptspiel loop.
     public void run() {
         Scanner sc = new Scanner(System.in);
 
@@ -83,15 +89,7 @@ public class EscapeGame {
     public void gameMenu(){
 
     }
-   /* 
-noch hinzuzufügen 
-
-liste der Lehrer
-liste der räume
-verbindung operational
-beim spielstart zuweisung von räumen und lehrern
-}
-    */
+   // zeigt die optionen des hauptmenüs an. 
    private void mainMenuoptions(){ 
         System.out.println("(1) Hochschule erkunden");
         System.out.println("(2) Hero Status anzeigen");
@@ -99,7 +97,7 @@ beim spielstart zuweisung von räumen und lehrern
         System.out.println("(4) Verschnaufpause machen");
         System.out.println("(5) Spiel verlassen");
    }
-
+    // Liest die eingabe des spielers im hauptmenü ein.
     private String mainMenuinput() {
         Scanner sc1 = new Scanner(System.in);
         String menuInput = sc1.nextLine();
@@ -107,7 +105,7 @@ beim spielstart zuweisung von räumen und lehrern
     }
  
 
-
+    //Wertet die eingaben im hauptmenü aus und ruft die entsprechenden methoden auf.
    private void mainMenu(){
 
     boolean exit = false;
@@ -141,34 +139,38 @@ beim spielstart zuweisung von räumen und lehrern
     }
 
    }
-
+    /**
+     * Bezeichnet die Haubttätigkeit im spiel das ERKUNDEN der Hochschule.
+     * hier werden zufällig räume ausgewählt und zufällige ereignisse ausgelöst.
+     */
     private void hochschuleErkunden() {
     if (gameFinished) return;
 
-    // optional: zufälligen Raum wählen
+        //Ein ZUfälliger raum wird ausgewählt
     int roomIndex = (int) (Math.random() * rooms.length);
     HTWRoom room = rooms[roomIndex];
     System.out.println("Du erkundest Raum " + room.getIdentifier() + " - " + room.getDescription());
 
     double r = Math.random();
 
+    // zu 20% passiert nichts
     if (r < 0.20) {
         System.out.println("Nichts Besonderes passiert.");
         endRound();
         return;
     }
-
-    if (r < 0.72) { // 0.20 + 0.52
-        alienEncounter();   // musst du implementieren
+    // zu 52% wird ein Alien angetroffen
+    if (r < 0.72) { 
+        alienEncounter();   
         endRound();
         return;
     }
-
-    lecturerEncounter(room); // 28%
+    // zu 28% wird ein Dozent angetroffen
+    lecturerEncounter(room); 
     endRound();
 }
 
-    
+        // zeigt den status des helden an.
    private void heroStatusanzeigen() {
     int signed = 0;
     for (int i = 0; i < lecturers.length; i++) {
@@ -182,7 +184,7 @@ beim spielstart zuweisung von räumen und lehrern
     System.out.println("Runde: " + round);
     System.out.println("Laufzettel: " + signed + "/" + lecturers.length);
 }
-   
+    // zeigt den laufzettel an.
 private void laufzettelAnzeigen() {
     System.out.println("=== LAUFZETTEL ===");
 
@@ -199,7 +201,8 @@ private void laufzettelAnzeigen() {
 
     System.out.println("Unterschriften: " + signed + "/" + lecturers.length);
 }
-
+    // ermöglicht dem helden eine verschnaufpause zu machen.
+    //Unterscheid zwischen kleiner (zwischenpause) und großer (ganze runde verbraucht) verschnaufpause.
 private void verschnaufPausemachen() {
     System.out.println("(1) Kleine Verschnaufpause (+3 LP, pro Runde einmal)");
     System.out.println("(2) Große Verschnaufpause (+10 LP, kostet eine ganze Runde)");
@@ -231,11 +234,11 @@ private void verschnaufPausemachen() {
             System.out.println("Ungültige Eingabe.");
     }
 }
-
+    // Beendet das Spiel und führt einen ins main menü zurück.
    private void spielVerlassen(){
 
    }
-
+    //Bezeichnet die Begegnung mit einem Dozenten.
    private void lecturerEncounter(HTWRoom room) {
     Lecturer lec = room.getLecturer();
     System.out.println("Du triffst " + lec.getName() + ".");
@@ -255,7 +258,7 @@ private void verschnaufPausemachen() {
 }
 
 
-
+    // Heilt den Helden um den angegebenen Betrag, maximal auf 50 LP.
    private void healHero(int amount) {
     int current = hero.getHealthPoints();
     int newValue = current + amount;
@@ -263,6 +266,7 @@ private void verschnaufPausemachen() {
     hero.setHealthPoints(newValue);
 }
 
+    // Erstellt ein zufälliges Alien basierend auf den vorgegebenen Wahrscheinlichkeiten.
 private Alien createRandomAlien() {
     double r = Math.random();
 
@@ -274,7 +278,7 @@ private Alien createRandomAlien() {
         return new AlienStrong();     // 35 %
     }
 }
-
+    // Bezeichnet die Begegnung mit einem Alien und die daraus resultierende Kampfmechanik.
 private void alienEncounter() {
     Alien alien = createRandomAlien();
 
@@ -323,7 +327,7 @@ private void alienEncounter() {
 
 
 
-
+    // Beendet die aktuelle Runde und überprüft, ob das Spiel vorbei ist.
 private void endRound() {
     round++;
     smallRestUsedThisRound = false;
