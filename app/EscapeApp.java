@@ -127,6 +127,7 @@ public class EscapeApp implements Serializable {
     private void resumeGame() {
         this.game.setGameRunning(true);
         this.game.run();
+       
     }
 
     private void deleteGame() {

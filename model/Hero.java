@@ -26,7 +26,7 @@ public class Hero implements Serializable {
         this.name = name;
         this.healthPoints = 50;
         this.experiencePoints = 0;
-        this.signedExerciseLeaders = new Lecturer[5]; 
+        this.signedExerciseLeaders = new Lecturer[6]; 
     }
 
     public void takeDamage(int amount){

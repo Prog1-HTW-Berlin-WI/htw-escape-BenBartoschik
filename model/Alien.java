@@ -29,8 +29,12 @@ public abstract class Alien implements Serializable {
     }
 
     public boolean isDefeated() {
-        return this.lifePoints <= 0;
+        if (lifePoints < 0) {
+            lifePoints = 0;
+        }
+        return lifePoints <= 0;
     }
+ 
 
     public  abstract int doDamage();
 
