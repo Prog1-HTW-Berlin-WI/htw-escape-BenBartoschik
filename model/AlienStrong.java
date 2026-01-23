@@ -1,8 +1,8 @@
 package model;
 
-public class Alien_Strong extends Alien {
+public class AlienStrong extends Alien {
 
-    public Alien_Strong() {
+    public AlienStrong() {
         super("Gerald", 50, false, "Grrrrr... I'm Gerald, the Alien! And I will eat u alive!");
     }
 

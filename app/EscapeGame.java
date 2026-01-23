@@ -1,9 +1,15 @@
 package app;
 
 import model.Hero;
+import model.Alien;
 import model.HTWRoom;
 import java.util.Scanner;
 import model.Lecturer;
+
+import model.AlienWeak;
+import model.AlienStrong;
+import model.AlienFrendly;
+
 
 /*
 @author: Ben Bartoschik und emmanuel bessong
@@ -138,6 +144,33 @@ beim spielstart zuweisung von räumen und lehrern
    private void hochschuleErkunden(){
 
    }
+    private void hochschuleErkunden() {
+    if (gameFinished) return;
+
+    // optional: zufälligen Raum wählen
+    int roomIndex = (int) (Math.random() * rooms.length);
+    HTWRoom room = rooms[roomIndex];
+    System.out.println("Du erkundest Raum " + room.getIdentifier() + " - " + room.getDescription());
+
+    double r = Math.random();
+
+    if (r < 0.20) {
+        System.out.println("Nichts Besonderes passiert.");
+        endRound();
+        return;
+    }
+
+    if (r < 0.72) { // 0.20 + 0.52
+        alienEncounter();   // musst du implementieren
+        endRound();
+        return;
+    }
+
+    lecturerEncounter(room); // 28%
+    endRound();
+}
+
+    
    private void heroStatusanzeigen() {
     int signed = 0;
     for (int i = 0; i < lecturers.length; i++) {
@@ -205,6 +238,26 @@ private void verschnaufPausemachen() {
 
    }
 
+   private void lecturerEncounter(HTWRoom room) {
+    Lecturer lec = room.getLecturer();
+    System.out.println("Du triffst " + lec.getName() + ".");
+
+    // Interaktion (minimal)
+    if (lec.isReadyToSign()) {
+        // entweder hero speichert Unterschriften:
+        hero.signExerciseLeader(lec);
+
+        // oder Lecturer merkt es:
+        lec.sign();
+
+        System.out.println(lec.getName() + " hat unterschrieben.");
+    } else {
+        System.out.println(lec.getName() + " ist noch nicht bereit zu unterschreiben.");
+    }
+}
+
+
+
    private void healHero(int amount) {
     int current = hero.getHealthPoints();
     int newValue = current + amount;
@@ -212,14 +265,76 @@ private void verschnaufPausemachen() {
     hero.setHealthPoints(newValue);
 }
 
-private void endRound() {
-    round++;
-    smallRestUsedThisRound = false;
+private Alien createRandomAlien() {
+    double r = Math.random();
+
+    if (r < 0.25) {
+        return new AlienFrendly();   // 25 %
+    } else if (r < 0.65) {
+        return new AlienWeak();       // 40 %
+    } else {
+        return new AlienStrong();     // 35 %
+    }
+}
+
+private void alienEncounter() {
+    Alien alien = createRandomAlien();
+
+    System.out.println("Du triffst auf " + alien.getName());
+    System.out.println(alien.getGreeting());
+
+    if (alien.isFriendly()) {
+        System.out.println("It issnt Ataking you. But why?");
+        return;
+    }
+
+    while (!alien.isDefeated() && hero.isOperational()) {
+        System.out.println("(1) Angreifen");
+        System.out.println("(2) Fliehen");
+
+        String choice = mainMenuinput();
+
+        if ("2".equals(choice)) {
+            if (hero.flee()) {
+                System.out.println("Flucht gelungen.");
+                return;
+            } else {
+                int dmg = alien.doDamage();
+                hero.takeDamage(dmg);
+                System.out.println("Flucht fehlgeschlagen. Schaden: " + dmg);
+            }
+        } else {
+            int heroDmg = hero.attack();
+            alien.takeDamage(heroDmg);
+            System.out.println("Du machst " + heroDmg + " Schaden.");
+
+            if (alien.isDefeated()) {
+                System.out.println("Alien besiegt!");
+                hero.addExperiencePoints(1);
+                return;
+            }
+
+            int alienDmg = alien.doDamage();
+            hero.takeDamage(alienDmg);
+            System.out.println("Alien trifft dich für " + alienDmg);
+        }
+    }
 }
 
 
 
-   
+
+private void endRound() {
+    round++;
+    smallRestUsedThisRound = false;
+
+    if (round > 24) {
+        System.out.println("Du hast es nicht innerhalb von 24 Stunden geschafft. GAME OVER.");
+        gameFinished = true;
+        gameRunning = false;
+    }
+}
+
 
 
 

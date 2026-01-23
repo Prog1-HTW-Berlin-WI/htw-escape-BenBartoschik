@@ -27,5 +27,18 @@ public abstract class Alien {
 
     public  abstract int doDamage();
 
+    public String getName() {
+     return name; }
+
+     public int getLifePoints() {
+    return lifePoints; }
+
+    public boolean isFriendly() {
+     return friendly; }
+
+     public String getGreeting() {
+     return greeting; }
+
+
 
 }
