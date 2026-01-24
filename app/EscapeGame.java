@@ -1,352 +1,412 @@
 package app;
+
 import java.io.Serializable;
-
-
-import model.Hero;
-import model.Alien;
-import model.HTWRoom;
 import java.util.Scanner;
+
+import model.Alien;
+import model.AlienFrendly;
+import model.AlienStrong;
+import model.AlienWeak;
+import model.HTWRoom;
+import model.Hero;
 import model.Lecturer;
 
-import model.AlienWeak;
-import model.AlienStrong;
-import model.AlienFrendly;
-
-
-/*
-@author: Ben Bartoschik und emmanuel bessong
-Dies ist die haubtklasse für die spiellogic hier werden die räume und der held initialisiert.
-und so alles was das spiel ausmacht.
-*/
-
 public class EscapeGame implements Serializable {
-    private Hero hero;   //ist es in Ordnung das final zu entnehmen 
-    private final HTWRoom[] rooms = new HTWRoom[6];
-    private final Lecturer[] lecturers = new Lecturer[6];
-    private boolean gameRunning = true;
-    private boolean gameFinished = false;
-    private int round = 1;
-    private boolean smallRestUsedThisRound = false;
+
     private static final long serialVersionUID = 1729389822767173584L;
 
-        /*  
-        * Initialisiert die Welt mit Räumen und Dozenten.
-        * Es ist Gänig initWorld zur Welterstellung zu nutzen.
-        * es weißt außerdem den Dozenten die Räume zu.
-        */
+    private transient Scanner scanner;
+
+    private Hero hero;
+
+    // 5 Räume / 5 Übungsleiter -> 5 Unterschriften
+    private final HTWRoom[] rooms = new HTWRoom[5];
+    private final Lecturer[] lecturers = new Lecturer[5];
+
+    private boolean gameRunning = true;
+    private boolean gameFinished = false;
+
+    private int round = 1;
+    private boolean smallRestUsedThisRound = false;
+
+    public EscapeGame() {
+        initWorld();
+    }
+
     private void initWorld() {
         lecturers[0] = new Lecturer("Prof. Gärtner");
         lecturers[1] = new Lecturer("Prof. Witt");
         lecturers[2] = new Lecturer("Prof. Odebrecht");
         lecturers[3] = new Lecturer("Prof. Merkel");
         lecturers[4] = new Lecturer("Prof. Schulz");
-        lecturers[5] = new Lecturer("Prof. Merz");
-    
+
         rooms[0] = new HTWRoom("218", "Großer Hörsaal.", lecturers[0]);
         rooms[1] = new HTWRoom("219", "Übungsraum.", lecturers[1]);
         rooms[2] = new HTWRoom("220", "Büro.", lecturers[2]);
         rooms[3] = new HTWRoom("221", "Büro.", lecturers[3]);
         rooms[4] = new HTWRoom("222", "Büro.", lecturers[4]);
-        rooms[5] = new HTWRoom("223", "Büro.", lecturers[5]);
     }
 
-    public EscapeGame() {
+    private void initScanner() {
+        if (scanner == null) {
+            scanner = new Scanner(System.in);
+        }
+    }
 
+    private String readInput() {
+        initScanner();
+        return scanner.nextLine();
     }
 
     public boolean isGameRunning() {
         return gameRunning;
     }
 
-    public void setGameRunning(boolean gameRunning) {
-        this.gameRunning = gameRunning;
-    }
-
     public boolean isGameFinished() {
         return gameFinished;
     }
-
-    public void setGameFinished(boolean gameFinished) {
-        this.gameFinished = gameFinished;
-    }
-
-    //Wird aufgerufen wenn ein neues spiel gestartet wird.
-    //und bezeichnet den hauptspiel loop.
-    public void run() {
-        Scanner sc = new Scanner(System.in);
-
-         System.out.print("Bitte gib den Namen deines Helden ein: ");
-         String name = sc.nextLine();
-
-        hero = new Hero(name);
-
-        initWorld();
-        mainMenu();
-    }
-
 
     public Hero getHero() {
         return hero;
     }
 
-    public void gameMenu(){
+    // Hauptloop starten / Resume nach Load möglich
+    public void run() {
+        initScanner();
 
+        // Falls nach Load irgendwas fehlt (Sicherheitsnetz)
+        if (rooms[0] == null || lecturers[0] == null) {
+            initWorld();
+        }
+
+        if (hero == null) {
+            System.out.print("Bitte gib den Namen deines Helden ein: ");
+            String name = readInput();
+            if (name.length() == 0) {
+                name = "Hero";
+            }
+            hero = new Hero(name);
+        }
+
+        mainMenu();
     }
-   // zeigt die optionen des hauptmenüs an. 
-   private void mainMenuoptions(){ 
+
+    private void mainMenuoptions() {
+        System.out.println("\n=== Runde " + round + " ===");
         System.out.println("(1) Hochschule erkunden");
         System.out.println("(2) Hero Status anzeigen");
         System.out.println("(3) Laufzettel anzeigen");
         System.out.println("(4) Verschnaufpause machen");
         System.out.println("(5) Spiel verlassen");
-   }
-    // Liest die eingabe des spielers im hauptmenü ein.
-    private String mainMenuinput() {
-        Scanner sc1 = new Scanner(System.in);
-        String menuInput = sc1.nextLine();
-        return menuInput;
-    }
- 
-
-    //Wertet die eingaben im hauptmenü aus und ruft die entsprechenden methoden auf.
-   private void mainMenu(){
-
-    boolean exit = false;
-
-    while(exit == false){
-
-        mainMenuoptions(); 
-        String menuInput = mainMenuinput();
-
-        switch (menuInput) {
-        case "1":
-            hochschuleErkunden();
-            break;
-        case "2":
-            heroStatusanzeigen();
-            break;
-        case "3":
-            laufzettelAnzeigen();
-            break;
-        case "4":
-            verschnaufPausemachen();
-            break;
-        case "5":
-            spielVerlassen();
-            exit = true;
-            break;
-        default:
-            System.out.println("Deine Eingabe ist ungültig, bitte versuche es erneut.");
-            break;
-    }
+        System.out.print("Deine Wahl: ");
     }
 
-   }
-    /**
-     * Bezeichnet die Haubttätigkeit im spiel das ERKUNDEN der Hochschule.
-     * hier werden zufällig räume ausgewählt und zufällige ereignisse ausgelöst.
-     */
+    private void mainMenu() {
+        while (gameRunning && !gameFinished) {
+            mainMenuoptions();
+            String menuInput = readInput();
+
+            switch (menuInput) {
+                case "1":
+                    hochschuleErkunden();
+                    break;
+                case "2":
+                    heroStatusanzeigen();
+                    break;
+                case "3":
+                    laufzettelAnzeigen();
+                    break;
+                case "4":
+                    verschnaufPausemachen();
+                    break;
+                case "5":
+                    spielVerlassen();
+                    return;
+                default:
+                    System.out.println("Deine Eingabe ist ungültig, bitte versuche es erneut.");
+                    break;
+            }
+        }
+    }
+
     private void hochschuleErkunden() {
-    if (gameFinished) return;
+        if (gameFinished) return;
 
-        //Ein ZUfälliger raum wird ausgewählt
-    int roomIndex = (int) (Math.random() * rooms.length);
-    HTWRoom room = rooms[roomIndex];
-    System.out.println("Du erkundest Raum " + room.getIdentifier() + " - " + room.getDescription());
-
-    double r = Math.random();
-
-    // zu 20% passiert nichts
-    if (r < 0.20) {
-        System.out.println("I found nothing interesting here. WoW ");
-        endRound();
-        return;
-    }
-    // zu 52% wird ein Alien angetroffen
-    if (r < 0.72) { 
-        alienEncounter();   
-        endRound();
-        return;
-    }
-    // zu 28% wird ein Dozent angetroffen
-    lecturerEncounter(room); 
-    endRound();
-}
-
-        // zeigt den status des helden an.
-   private void heroStatusanzeigen() {
-    int signed = 0;
-    for (int i = 0; i < lecturers.length; i++) {
-        if (lecturers[i].hasSigned()) signed++;
-    }
-
-    System.out.println("=== HERO STATUS ===");
-    System.out.println("Name: " + hero.getName());
-    System.out.println("Leben: " + hero.getHealthPoints());
-    System.out.println("XP: " + hero.getExperiencePoints());
-    System.out.println("Runde: " + round);
-    System.out.println("Laufzettel: " + signed + "/" + lecturers.length);
-}
-    // zeigt den laufzettel an.
-private void laufzettelAnzeigen() {
-    System.out.println("=== LAUFZETTEL ===");
-
-    int signed = 0;
-
-    for (int i = 0; i < lecturers.length; i++) {
-        if (lecturers[i].hasSigned()) {
-            System.out.println(lecturers[i].getName() + " [unterschrieben]");
-            signed++;
-        } else {
-            System.out.println(lecturers[i].getName() + " [/]");
+        // ✅ Majuntke erst beim NÄCHSTEN Erkunden nach 5 Unterschriften
+        if (countSignedLecturers() >= 5) {
+            treffeProfessorinMajuntke();
+            return;
         }
+
+        int roomIndex = (int) (Math.random() * rooms.length);
+        HTWRoom room = rooms[roomIndex];
+
+        System.out.println("Du erkundest Raum " + room.getIdentifier() + " - " + room.getDescription());
+
+        double r = Math.random();
+
+        // 20% nichts
+        if (r < 0.20) {
+            System.out.println("Hier ist nichts Interessantes passiert.");
+            endRound();
+            return;
+        }
+
+        // 52% Alien
+        if (r < 0.72) {
+            alienEncounter();
+            endRound();
+            return;
+        }
+
+        // 28% Lecturer, aber nicht wenn schon unterschrieben
+        Lecturer lec = room.getLecturer();
+        if (lec == null || lec.hasSigned()) {
+            System.out.println("Der Raum ist leer.");
+            endRound();
+            return;
+        }
+
+        lecturerEncounter(room);
+        endRound();
     }
 
-    System.out.println("Unterschriften: " + signed + "/" + lecturers.length);
-}
-    // ermöglicht dem helden eine verschnaufpause zu machen.
-    //Unterscheid zwischen kleiner (zwischenpause) und großer (ganze runde verbraucht) verschnaufpause.
-private void verschnaufPausemachen() {
-    System.out.println("(1) Kleine Verschnaufpause (+3 LP, pro Runde einmal)");
-    System.out.println("(2) Große Verschnaufpause (+10 LP, kostet eine ganze Runde)");
-    System.out.println("(0) Zurück");
-
-    String input = mainMenuinput();
-
-    switch (input) {
-        case "1":
-            if (smallRestUsedThisRound) {
-                System.out.println("Kleine Verschnaufpause wurde diese Runde bereits genutzt.");
-                return;
-            }
-            healHero(3);
-            smallRestUsedThisRound = true;
-            System.out.println("Du regenerierst 3 Lebenspunkte. Aktuell: " + hero.getHealthPoints());
-            break;
-
-        case "2":
-            healHero(10);
-            System.out.println("Du regenerierst 10 Lebenspunkte. Aktuell: " + hero.getHealthPoints());
-            endRound(); // komplette Runde verbraucht
-            break;
-
-        case "0":
-            break;
-
-        default:
-            System.out.println("Ungültige Eingabe.");
-    }
-}
-    // Beendet das Spiel und führt einen ins main menü zurück.
-   private void spielVerlassen(){
-
-   }
-    //Bezeichnet die Begegnung mit einem Dozenten.
-   private void lecturerEncounter(HTWRoom room) {
-    Lecturer lec = room.getLecturer();
-    System.out.println("Du triffst " + lec.getName() + ".");
-
-    // Interaktion (minimal)
-    if (lec.isReadyToSign()) {
-        // entweder hero speichert Unterschriften:
-        hero.signExerciseLeader(lec);
-
-        // oder Lecturer merkt es:
-        lec.sign();
-
-        System.out.println(lec.getName() + " hat unterschrieben.");
-    } else {
-        System.out.println(lec.getName() + " ist noch nicht bereit zu unterschreiben.");
-    }
-}
-
-
-    // Heilt den Helden um den angegebenen Betrag, maximal auf 50 LP.
-   private void healHero(int amount) {
-    int current = hero.getHealthPoints();
-    int newValue = current + amount;
-    if (newValue > 50) newValue = 50;
-    hero.setHealthPoints(newValue);
-}
-
-    // Erstellt ein zufälliges Alien basierend auf den vorgegebenen Wahrscheinlichkeiten.
-private Alien createRandomAlien() {
-    double r = Math.random();
-
-    if (r < 0.25) {
-        return new AlienFrendly();   // 25 %
-    } else if (r < 0.65) {
-        return new AlienWeak();       // 40 %
-    } else {
-        return new AlienStrong();     // 35 %
-    }
-}
-    // Bezeichnet die Begegnung mit einem Alien und die daraus resultierende Kampfmechanik.
-private void alienEncounter() {
-    Alien alien = createRandomAlien();
-
-    System.out.println("Du triffst auf " + alien.getName());
-    System.out.println(alien.getGreeting());
-
-    if (alien.isFriendly()) {
-        System.out.println("It issnt Ataking you. But why?");
-        return;
+    private void heroStatusanzeigen() {
+        System.out.println("\n=== HERO STATUS ===");
+        System.out.println("Name: " + hero.getName());
+        System.out.println("Leben: " + hero.getHealthPoints());
+        System.out.println("XP: " + hero.getExperiencePoints());
+        System.out.println("Runde: " + round);
+        System.out.println("Laufzettel: " + countSignedLecturers() + "/5 Unterschriften");
     }
 
-    while (!alien.isDefeated() && hero.isOperational()) {
-        System.out.println("(1) Angreifen");
-        System.out.println("(2) Fliehen");
-
-        
-        String choice = mainMenuinput();
-    
-       
-        if ("2".equals(choice)) {
-            if (hero.flee()) {
-                System.out.println("Flucht gelungen.");
-                return;
+    private void laufzettelAnzeigen() {
+        System.out.println("\n=== LAUFZETTEL ===");
+        for (int i = 0; i < lecturers.length; i++) {
+            if (lecturers[i].hasSigned()) {
+                System.out.println(lecturers[i].getName() + " [unterschrieben]");
             } else {
-                int dmg = alien.doDamage();
-                hero.takeDamage(dmg);
-                System.out.println("Flucht fehlgeschlagen. Schaden: " + dmg);
+                System.out.println(lecturers[i].getName() + " [/]");
             }
-        } else {
-            int heroDmg = hero.attack();
-            alien.takeDamage(heroDmg);
-            System.out.println("Du machst " + heroDmg + " Schaden.");
-
-            if (alien.isDefeated()) {
-                System.out.println("Alien besiegt!");
-                hero.addExperiencePoints(1);
-                return;
-            }
-
-            int alienDmg = alien.doDamage();
-            hero.takeDamage(alienDmg);
-            System.out.println("Alien trifft dich für " + alienDmg);
         }
     }
-}
 
+    private void verschnaufPausemachen() {
+        System.out.println("\n(1) Kleine Verschnaufpause (+3 LP, pro Runde einmal)");
+        System.out.println("(2) Große Verschnaufpause (+10 LP, kostet eine ganze Runde)");
+        System.out.println("(0) Zurück");
 
+        String input = readInput();
 
-    // Beendet die aktuelle Runde und überprüft, ob das Spiel vorbei ist.
-private void endRound() {
-    round++;
-    smallRestUsedThisRound = false;
+        switch (input) {
+            case "1":
+                if (smallRestUsedThisRound) {
+                    System.out.println("Kleine Verschnaufpause wurde diese Runde bereits genutzt.");
+                    return;
+                }
+                healHero(3);
+                smallRestUsedThisRound = true;
+                System.out.println("Aktuelle LP: " + hero.getHealthPoints());
+                break;
 
-    if (round > 24) {
-        System.out.println("Du hast es nicht innerhalb von 24 Stunden geschafft. GAME OVER.");
+            case "2":
+                healHero(10);
+                System.out.println("Aktuelle LP: " + hero.getHealthPoints());
+                endRound();
+                break;
+
+            case "0":
+                break;
+
+            default:
+                System.out.println("Ungültige Eingabe.");
+                break;
+        }
+    }
+
+    private void spielVerlassen() {
+        System.out.println("Spiel wird verlassen...");
+        gameRunning = false;
+        gameFinished = true;
+    }
+
+    private void lecturerEncounter(HTWRoom room) {
+        Lecturer lec = room.getLecturer();
+
+        // Sicherheitscheck
+        if (lec == null || lec.hasSigned()) {
+            System.out.println("Niemand ist da.");
+            return;
+        }
+
+        System.out.println("Du triffst " + lec.getName() + ".");
+
+        if (lec.isReadyToSign()) {
+            lec.sign();
+            hero.signExerciseLeader(lec);
+            System.out.println(lec.getName() + " hat unterschrieben.");
+        } else {
+            System.out.println(lec.getName() + " ist noch nicht bereit zu unterschreiben.");
+        }
+    }
+
+    private void healHero(int amount) {
+        int current = hero.getHealthPoints();
+        int newValue = current + amount;
+        if (newValue > 50) newValue = 50;
+        hero.setHealthPoints(newValue);
+    }
+
+    private Alien createRandomAlien() {
+        double r = Math.random();
+        if (r < 0.25) return new AlienFrendly();
+        if (r < 0.65) return new AlienWeak();
+        return new AlienStrong();
+    }
+
+    private void alienEncounter() {
+        Alien alien = createRandomAlien();
+
+        System.out.println("Du triffst auf " + alien.getName());
+        System.out.println(alien.getGreeting());
+
+        if (alien.isFriendly()) {
+            System.out.println("Es greift dich nicht an.");
+            return;
+        }
+
+        while (!alien.isDefeated() && hero.isOperational()) {
+            System.out.println("(1) Angreifen");
+            System.out.println("(2) Fliehen");
+
+            String choice = readInput();
+
+            if ("2".equals(choice)) {
+                if (hero.flee()) {
+                    System.out.println("Flucht gelungen.");
+                    return;
+                } else {
+                    int dmg = alien.doDamage();
+                    hero.takeDamage(dmg);
+                    System.out.println("Flucht fehlgeschlagen. Schaden: " + dmg);
+                }
+            } else if ("1".equals(choice)) {
+                int heroDmg = hero.attack();
+                alien.takeDamage(heroDmg);
+                System.out.println("Du machst " + heroDmg + " Schaden.");
+
+                if (alien.isDefeated()) {
+                    System.out.println("Alien besiegt!");
+                    hero.addExperiencePoints(1); // so wie in deinem Code
+                    return;
+                }
+
+                int alienDmg = alien.doDamage();
+                hero.takeDamage(alienDmg);
+                System.out.println("Alien trifft dich für " + alienDmg);
+            } else {
+                System.out.println("Ungültige Eingabe.");
+            }
+        }
+    }
+
+    // ✅ Rundenende + Game Over exakt nach 24 Runden
+    private void endRound() {
+        smallRestUsedThisRound = false;
+
+        if (round >= 24) {
+            System.out.println("\n========================================");
+            System.out.println("24 Runden sind vorbei!");
+            System.out.println("Professorin Majuntke steigt in ihr Raumschiff (sie ist in Wahrheit ein Alien) und fliegt davon.");
+            System.out.println("Was mit der HTW passieren wird, weiß keiner...");
+            System.out.println("GAME OVER");
+            System.out.println("========================================\n");
+            gameFinished = true;
+            gameRunning = false;
+            return;
+        }
+
+        round++;
+    }
+
+    private int countSignedLecturers() {
+        int signed = 0;
+        for (int i = 0; i < lecturers.length; i++) {
+            if (lecturers[i].hasSigned()) signed++;
+        }
+        return signed;
+    }
+
+    private void treffeProfessorinMajuntke() {
+        System.out.println("\n========================================");
+        System.out.println("Du hast alle 5 Unterschriften gesammelt!");
+        System.out.println("Endlich findest du Professorin Majuntke.");
+        System.out.println("Sie sagt: \"Beantworte mir eine Frage zu Grundlagen der Programmierung!\"");
+        System.out.println("========================================\n");
+
+        if (stelleMultipleChoiceFrage()) {
+            System.out.println("\n========================================");
+            System.out.println("Richtig! Du bekommst eine Urkunde.");
+            System.out.println("Die Türen der HTW öffnen sich wieder.");
+            System.out.println("DU HAST GEWONNEN!");
+            System.out.println("========================================\n");
+            gameFinished = true;
+            gameRunning = false;
+            return;
+        }
+
+        System.out.println("\n========================================");
+        System.out.println("Falsch! Zweiter Prüfungszeitraum!");
+        System.out.println("Noch eine Chance...");
+        System.out.println("========================================\n");
+
+        if (stelleMultipleChoiceFrage()) {
+            System.out.println("\n========================================");
+            System.out.println("Richtig! Du bekommst eine Urkunde.");
+            System.out.println("DU HAST GEWONNEN!");
+            System.out.println("========================================\n");
+        } else {
+            System.out.println("\n========================================");
+            System.out.println("Wieder falsch!");
+            System.out.println("Professorin Majuntke fliegt mit ihrem Raumschiff davon und sagt:");
+            System.out.println("\"Tja… nächstes Semester dann!\"");
+            System.out.println("GAME OVER.");
+            System.out.println("========================================\n");
+        }
+
         gameFinished = true;
         gameRunning = false;
     }
-}
 
+    private boolean stelleMultipleChoiceFrage() {
+        int frage = (int) (Math.random() * 3);
 
+        if (frage == 0) {
+            System.out.println("Frage 1: Was ist eine Schleife?");
+            System.out.println("1) Eine Bedingung");
+            System.out.println("2) Eine wiederholte Ausführung von Code");
+            System.out.println("3) Ein Datentyp");
+            System.out.println("4) Ein Objekt");
+            System.out.print("Antwort (1-4): ");
+            return "2".equals(readInput());
+        }
 
+        if (frage == 1) {
+            System.out.println("Frage 2: Was macht ein if-Statement?");
+            System.out.println("1) Wiederholt Code");
+            System.out.println("2) Beendet das Programm");
+            System.out.println("3) Prüft eine Bedingung");
+            System.out.println("4) Erstellt ein Objekt");
+            System.out.print("Antwort (1-4): ");
+            return "3".equals(readInput());
+        }
 
-
-
-
-
+        System.out.println("Frage 3: Was ist ein Objekt?");
+        System.out.println("1) Eine Klasse");
+        System.out.println("2) Ein Datentyp");
+        System.out.println("3) Eine Methode");
+        System.out.println("4) Eine Instanz einer Klasse");
+        System.out.print("Antwort (1-4): ");
+        return "4".equals(readInput());
+    }
 }
