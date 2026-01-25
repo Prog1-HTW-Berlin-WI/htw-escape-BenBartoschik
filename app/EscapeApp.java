@@ -26,6 +26,7 @@ public class EscapeApp implements Serializable {
         System.out.println("========================================\n");
 
         EscapeApp app = new EscapeApp();
+        
 
         while (app.gameRunning) {
             app.showMainMenu();
@@ -102,6 +103,7 @@ public class EscapeApp implements Serializable {
             case "4":
                 if (hasSavedGame()) {
                     loadGame();
+                    resumeGame();
                 } else {
                     System.out.println("No saved game found. Please start a new game.");
                 }
@@ -118,6 +120,9 @@ public class EscapeApp implements Serializable {
                 break;
         }
     }
+    
+    
+    
 
     private void startGame() {
         this.game = new EscapeGame();
@@ -125,7 +130,6 @@ public class EscapeApp implements Serializable {
     }
 
     private void resumeGame() {
-        this.game.setGameRunning(true);
         this.game.run();
        
     }

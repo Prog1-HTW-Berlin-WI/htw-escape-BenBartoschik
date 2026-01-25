@@ -20,8 +20,8 @@ public class EscapeGame implements Serializable {
     private Hero hero;
 
     // 5 Räume / 5 Übungsleiter -> 5 Unterschriften
-    private final HTWRoom[] rooms = new HTWRoom[5];
-    private final Lecturer[] lecturers = new Lecturer[5];
+    private final HTWRoom[] rooms = new HTWRoom[6];
+    private final Lecturer[] lecturers = new Lecturer[6];
 
     private boolean gameRunning = true;
     private boolean gameFinished = false;
@@ -39,12 +39,14 @@ public class EscapeGame implements Serializable {
         lecturers[2] = new Lecturer("Prof. Odebrecht");
         lecturers[3] = new Lecturer("Prof. Merkel");
         lecturers[4] = new Lecturer("Prof. Schulz");
+        lecturers[5] = new Lecturer("Prof. Merz");
 
         rooms[0] = new HTWRoom("218", "Großer Hörsaal.", lecturers[0]);
         rooms[1] = new HTWRoom("219", "Übungsraum.", lecturers[1]);
         rooms[2] = new HTWRoom("220", "Büro.", lecturers[2]);
         rooms[3] = new HTWRoom("221", "Büro.", lecturers[3]);
         rooms[4] = new HTWRoom("222", "Büro.", lecturers[4]);
+        rooms[5] = new HTWRoom("223", "Büro.", lecturers[4]);
     }
 
     private void initScanner() {
@@ -132,8 +134,8 @@ public class EscapeGame implements Serializable {
     private void hochschuleErkunden() {
         if (gameFinished) return;
 
-        // ✅ Majuntke erst beim NÄCHSTEN Erkunden nach 5 Unterschriften
-        if (countSignedLecturers() >= 5) {
+        // Majuntke erst beim NÄCHSTEN Erkunden nach 6 Unterschriften
+        if (countSignedLecturers() >= 6) {
             treffeProfessorinMajuntke();
             return;
         }
@@ -177,7 +179,7 @@ public class EscapeGame implements Serializable {
         System.out.println("Leben: " + hero.getHealthPoints());
         System.out.println("XP: " + hero.getExperiencePoints());
         System.out.println("Runde: " + round);
-        System.out.println("Laufzettel: " + countSignedLecturers() + "/5 Unterschriften");
+        System.out.println("Laufzettel: " + countSignedLecturers() + "/6 Unterschriften");
     }
 
     private void laufzettelAnzeigen() {
@@ -289,6 +291,11 @@ public class EscapeGame implements Serializable {
                     int dmg = alien.doDamage();
                     hero.takeDamage(dmg);
                     System.out.println("Flucht fehlgeschlagen. Schaden: " + dmg);
+
+                    if (!hero.isOperational()) { 
+                        GameOver();
+                        return;
+                    }
                 }
             } else if ("1".equals(choice)) {
                 int heroDmg = hero.attack();
@@ -304,7 +311,13 @@ public class EscapeGame implements Serializable {
                 int alienDmg = alien.doDamage();
                 hero.takeDamage(alienDmg);
                 System.out.println("Alien trifft dich für " + alienDmg);
-            } else {
+
+                if (!hero.isOperational()) { 
+                    GameOver();
+                    return;
+                }
+            }
+             else {
                 System.out.println("Ungültige Eingabe.");
             }
         }
@@ -339,7 +352,7 @@ public class EscapeGame implements Serializable {
 
     private void treffeProfessorinMajuntke() {
         System.out.println("\n========================================");
-        System.out.println("Du hast alle 5 Unterschriften gesammelt!");
+        System.out.println("Du hast alle 6 Unterschriften gesammelt!");
         System.out.println("Endlich findest du Professorin Majuntke.");
         System.out.println("Sie sagt: \"Beantworte mir eine Frage zu Grundlagen der Programmierung!\"");
         System.out.println("========================================\n");
@@ -408,5 +421,16 @@ public class EscapeGame implements Serializable {
         System.out.println("4) Eine Instanz einer Klasse");
         System.out.print("Antwort (1-4): ");
         return "4".equals(readInput());
+    }
+
+    public void GameOver() {
+        if (!hero.isOperational()) {
+            System.out.println("\n========================================");
+            System.out.println("Dein Held ist nicht mehr einsatzfähig!");
+            System.out.println("GAME OVER");
+            System.out.println("========================================\n");
+        }
+        gameFinished = true;
+        gameRunning = false;
     }
 }

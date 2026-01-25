@@ -11,11 +11,11 @@ public class AlienWeak extends Alien implements Serializable {
     private static final long serialVersionUID = 1729389822767173584L;
 
     public AlienWeak() {
-        super("Manfred", 25, false, "Zzz... I'm Manfred, the Alien! U can run, but u can't hide!");
+        super("Manfred", 5, false, "Zzz... I'm Manfred, the Alien! U can run, but u can't hide!");
     }
 
     @Override
     public int doDamage() {
-        return 5;
+        return 1;
     }
 }

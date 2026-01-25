@@ -1,4 +1,6 @@
 package model;
+import model.Lecturer;
+import app.EscapeGame;
 
 import java.io.Serializable;
 
@@ -35,6 +37,9 @@ public class Hero implements Serializable {
     /** Array mit unterschriebenen Übungsleitern. */
     private Lecturer[] signedExerciseLeaders;
 
+    //Difiniert ob er "einsatzbereit" ist
+    private boolean isOperational;
+
     /**
      * Konstruktor für den Helden.
      * Initialisiert den Helden mit einem Namen, 50 Lebenspunkten,
@@ -47,6 +52,7 @@ public class Hero implements Serializable {
         this.healthPoints = 50;
         this.experiencePoints = 0;
         this.signedExerciseLeaders = new Lecturer[6]; 
+        this.isOperational = true;
     }
 
     /**
@@ -58,9 +64,14 @@ public class Hero implements Serializable {
     public void takeDamage(int amount) {
         healthPoints = healthPoints - amount;
 
-        if(healthPoints < 0) {
+        if(healthPoints <= 0) {
             healthPoints = 0;
+            this.isOperational = false;
         }
+    }
+
+    public boolean isOperational() {
+        return isOperational;
     }
 
     /**
@@ -157,20 +168,6 @@ public class Hero implements Serializable {
     */
    public void addExperiencePoints(int experiencePoints) {
         this.experiencePoints = this.experiencePoints + experiencePoints;
-   }
-
-   /**
-    * Überprüft, ob der Held noch handlungsfähig ist.
-    * Ein Held ist handlungsfähig, solange seine Lebenspunkte größer als 0 sind.
-    * 
-    * @return true, wenn der Held handlungsfähig ist, sonst false.
-    */
-   public boolean isOperational() {
-        if(healthPoints > 0) {
-            return true;
-        } else {
-            return false;
-        }
    }
 
     /**
