@@ -1,4 +1,5 @@
 package model;
+
 import model.Lecturer;
 import app.EscapeGame;
 
@@ -27,17 +28,17 @@ public class Hero implements Serializable {
 
     /** Name des Helden. */
     private String name;
-    
+
     /** Aktuelle Lebenspunkte des Helden. */
     private int healthPoints;
-    
+
     /** Aktuelle Erfahrungspunkte des Helden. */
     private int experiencePoints;
-    
+
     /** Array mit unterschriebenen Übungsleitern. */
     private Lecturer[] signedExerciseLeaders;
 
-    //Difiniert ob er "einsatzbereit" ist
+    // Difiniert ob er "einsatzbereit" ist
     private boolean isOperational;
 
     /**
@@ -51,7 +52,7 @@ public class Hero implements Serializable {
         this.name = name;
         this.healthPoints = 50;
         this.experiencePoints = 0;
-        this.signedExerciseLeaders = new Lecturer[6]; 
+        this.signedExerciseLeaders = new Lecturer[6];
         this.isOperational = true;
     }
 
@@ -64,7 +65,7 @@ public class Hero implements Serializable {
     public void takeDamage(int amount) {
         healthPoints = healthPoints - amount;
 
-        if(healthPoints <= 0) {
+        if (healthPoints <= 0) {
             healthPoints = 0;
             this.isOperational = false;
         }
@@ -75,7 +76,7 @@ public class Hero implements Serializable {
      *
      * @return einsatzfähig
      */
-    
+
     public boolean isOperational() {
         return isOperational;
     }
@@ -89,10 +90,10 @@ public class Hero implements Serializable {
      * @param longRest Gibt an, ob es sich um eine große Pause handelt.
      */
     public void regenerate(boolean longRest) {
-        if(longRest == false) {
+        if (longRest == false) {
             healthPoints = healthPoints + DREILEBENSPUNKTE;
         }
-        if(longRest == true) {
+        if (longRest == true) {
             healthPoints = healthPoints + ZEHNLEBENSPUNKTE;
         }
         if (healthPoints > 50) {
@@ -108,7 +109,7 @@ public class Hero implements Serializable {
      */
     public boolean flee() {
         double wahrscheinlichkeit = Math.random();
-        if(wahrscheinlichkeit < 0.42) {
+        if (wahrscheinlichkeit < 0.42) {
             return true;
         } else {
             return false;
@@ -125,13 +126,12 @@ public class Hero implements Serializable {
      */
     public int attack() {
         double grundschaden = experiencePoints * 2.3 + 1;
-        int schaden = (int)grundschaden;
+        int schaden = (int) grundschaden;
 
         double zufallsgenerator = Math.random();
-        if(zufallsgenerator < 0.13) {
+        if (zufallsgenerator < 0.13) {
             return 0;
-        }
-        else if(zufallsgenerator < 0.25) {
+        } else if (zufallsgenerator < 0.25) {
             return schaden * 2;
         } else {
             return schaden;
@@ -146,35 +146,35 @@ public class Hero implements Serializable {
      */
     public void signExerciseLeader(Lecturer lecturer) {
         for (int i = 0; i < signedExerciseLeaders.length; i++) {
-             if (signedExerciseLeaders[i] == lecturer) {
+            if (signedExerciseLeaders[i] == lecturer) {
                 return;
-             }
+            }
         }
         for (int i = 0; i < signedExerciseLeaders.length; i++) {
-             if (signedExerciseLeaders[i] == null) {
+            if (signedExerciseLeaders[i] == null) {
                 signedExerciseLeaders[i] = lecturer;
                 return;
-             }
-         }
-   }
+            }
+        }
+    }
 
-   /**
-    * Gibt die aktuellen Erfahrungspunkte des Helden zurück.
-    * 
-    * @return Die Erfahrungspunkte.
-    */
-   public int getExperiencePoints() {
+    /**
+     * Gibt die aktuellen Erfahrungspunkte des Helden zurück.
+     * 
+     * @return Die Erfahrungspunkte.
+     */
+    public int getExperiencePoints() {
         return experiencePoints;
-   }
+    }
 
-   /**
-    * Erhöht die Erfahrungspunkte um den angegebenen Wert.
-    * 
-    * @param experiencePoints Die hinzuzufügenden Erfahrungspunkte.
-    */
-   public void addExperiencePoints(int experiencePoints) {
+    /**
+     * Erhöht die Erfahrungspunkte um den angegebenen Wert.
+     * 
+     * @param experiencePoints Die hinzuzufügenden Erfahrungspunkte.
+     */
+    public void addExperiencePoints(int experiencePoints) {
         this.experiencePoints = this.experiencePoints + experiencePoints;
-   }
+    }
 
     /**
      * Gibt den Namen des Helden zurück.
@@ -184,7 +184,7 @@ public class Hero implements Serializable {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Setzt den Namen des Helden.
      * 
@@ -193,7 +193,7 @@ public class Hero implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     /**
      * Gibt die aktuellen Lebenspunkte des Helden zurück.
      * 
@@ -211,7 +211,9 @@ public class Hero implements Serializable {
      */
     public void setHealthPoints(int healthPoints) {
         this.healthPoints = healthPoints;
-        if (this.healthPoints < 0) this.healthPoints = 0;
-        if (this.healthPoints > HEALTHPOINTS) this.healthPoints = HEALTHPOINTS;
+        if (this.healthPoints < 0)
+            this.healthPoints = 0;
+        if (this.healthPoints > HEALTHPOINTS)
+            this.healthPoints = HEALTHPOINTS;
     }
 }

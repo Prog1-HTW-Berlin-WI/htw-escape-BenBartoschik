@@ -13,7 +13,8 @@ import model.Lecturer;
 
 /**
  * Zentrale Spiellogik des Konsolen-Spiels „HTW Escape“.
- * Der Spieler erkundet Räume, sammelt Unterschriften und hat Zufallsbegegnungen.
+ * Der Spieler erkundet Räume, sammelt Unterschriften und hat
+ * Zufallsbegegnungen.
  *
  * @author Ben
  * @author Emanuel
@@ -106,7 +107,7 @@ public class EscapeGame implements Serializable {
         return gameFinished;
     }
 
-     /**
+    /**
      * Gibt den Helden zurück.
      *
      * @return Held
@@ -125,7 +126,7 @@ public class EscapeGame implements Serializable {
         initScanner();
 
         if (!gameFinished) {
-            gameRunning = true;   
+            gameRunning = true;
         }
 
         // Falls nach Load irgendwas fehlt (Sicherheitsnetz)
@@ -196,7 +197,8 @@ public class EscapeGame implements Serializable {
      */
 
     private void hochschuleErkunden() {
-        if (gameFinished) return;
+        if (gameFinished)
+            return;
 
         // Majuntke erst beim NÄCHSTEN Erkunden nach 6 Unterschriften
         if (countSignedLecturers() >= 5) {
@@ -224,7 +226,7 @@ public class EscapeGame implements Serializable {
             endRound();
             return;
         }
-        
+
         // 28% Lecturer, aber nicht wenn schon unterschrieben
         Lecturer lec = room.getLecturer();
         if (lec == null || lec.hasSigned()) {
@@ -310,7 +312,6 @@ public class EscapeGame implements Serializable {
         System.out.println("Zurück ins Hauptmenü...");
         gameRunning = false;
     }
-    
 
     /**
      * Begegnung mit einem Dozenten im Raum.
@@ -338,7 +339,7 @@ public class EscapeGame implements Serializable {
         }
     }
 
-     /**
+    /**
      * Heilt den Helden.
      *
      * @param amount Heilpunkte
@@ -347,7 +348,8 @@ public class EscapeGame implements Serializable {
     private void healHero(int amount) {
         int current = hero.getHealthPoints();
         int newValue = current + amount;
-        if (newValue > 50) newValue = 50;
+        if (newValue > 50)
+            newValue = 50;
         hero.setHealthPoints(newValue);
     }
 
@@ -359,8 +361,10 @@ public class EscapeGame implements Serializable {
 
     private Alien createRandomAlien() {
         double r = Math.random();
-        if (r < 0.25) return new AlienFrendly();
-        if (r < 0.65) return new AlienWeak();
+        if (r < 0.25)
+            return new AlienFrendly();
+        if (r < 0.65)
+            return new AlienWeak();
         return new AlienStrong();
     }
 
@@ -394,7 +398,7 @@ public class EscapeGame implements Serializable {
                     hero.takeDamage(dmg);
                     System.out.println("Flucht fehlgeschlagen. Schaden: " + dmg);
 
-                    if (!hero.isOperational()) { 
+                    if (!hero.isOperational()) {
                         GameOver();
                         return;
                     }
@@ -414,12 +418,11 @@ public class EscapeGame implements Serializable {
                 hero.takeDamage(alienDmg);
                 System.out.println("Alien trifft dich für " + alienDmg);
 
-                if (!hero.isOperational()) { 
+                if (!hero.isOperational()) {
                     GameOver();
                     return;
                 }
-            }
-             else {
+            } else {
                 System.out.println("Ungültige Eingabe.");
             }
         }
@@ -435,7 +438,8 @@ public class EscapeGame implements Serializable {
         if (round >= 24) {
             System.out.println("\n========================================");
             System.out.println("24 Runden sind vorbei!");
-            System.out.println("Professorin Majuntke steigt in ihr Raumschiff (sie ist in Wahrheit ein Alien) und fliegt davon.");
+            System.out.println(
+                    "Professorin Majuntke steigt in ihr Raumschiff (sie ist in Wahrheit ein Alien) und fliegt davon.");
             System.out.println("Was mit der HTW passieren wird, weiß keiner...");
             System.out.println("GAME OVER");
             System.out.println("========================================\n");
@@ -456,7 +460,8 @@ public class EscapeGame implements Serializable {
     private int countSignedLecturers() {
         int signed = 0;
         for (int i = 0; i < lecturers.length; i++) {
-            if (lecturers[i].hasSigned()) signed++;
+            if (lecturers[i].hasSigned())
+                signed++;
         }
         return signed;
     }

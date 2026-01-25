@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Abstrakte Klasse, die einen Alien im Spiel repräsentiert.
- * Ein Alien hat einen Namen, Lebenspunkte, eine Freundlichkeitseigenschaft/Agresivität und eine Begrüßung.
+ * Ein Alien hat einen Namen, Lebenspunkte, eine
+ * Freundlichkeitseigenschaft/Agresivität und eine Begrüßung.
  */
 
 public abstract class Alien implements Serializable {
@@ -19,10 +20,10 @@ public abstract class Alien implements Serializable {
     /**
      * Erstellt ein Alien.
      *
-     * @param name Name
+     * @param name       Name
      * @param lifePoints Lebenspunkte
-     * @param friendly Freundlichkeitsstatus
-     * @param greeting Begrüßung
+     * @param friendly   Freundlichkeitsstatus
+     * @param greeting   Begrüßung
      */
 
     public Alien(String name, int lifePoints, boolean friendly, String greeting) {
@@ -63,7 +64,7 @@ public abstract class Alien implements Serializable {
      * @return Schaden
      */
 
-    public  abstract int doDamage();
+    public abstract int doDamage();
 
     /**
      * Gibt den Namen des Aliens zurück.
@@ -72,16 +73,18 @@ public abstract class Alien implements Serializable {
      */
 
     public String getName() {
-     return name; }
+        return name;
+    }
 
-     /**
+    /**
      * Gibt die Lebenspunkte zurück.
      *
      * @return Lebenspunkte
      */
 
-     public int getLifePoints() {
-    return lifePoints; }
+    public int getLifePoints() {
+        return lifePoints;
+    }
 
     /**
      * Prüft, ob das Alien freundlich ist.
@@ -90,15 +93,17 @@ public abstract class Alien implements Serializable {
      */
 
     public boolean isFriendly() {
-     return friendly; }
+        return friendly;
+    }
 
-     /**
+    /**
      * Gibt die Begrüßung zurück.
      *
      * @return Begrüßung
      */
 
-     public String getGreeting() {
-     return greeting; }
+    public String getGreeting() {
+        return greeting;
+    }
 
 }

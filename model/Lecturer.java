@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 /**
  * Repräsentiert die Dozenten im Spiel.
- * Ein Dozent hat einen Namen und einen Status, ob er bereits unterschrieben hat.
+ * Ein Dozent hat einen Namen und einen Status, ob er bereits unterschrieben
+ * hat.
  */
 
 public class Lecturer implements Serializable {

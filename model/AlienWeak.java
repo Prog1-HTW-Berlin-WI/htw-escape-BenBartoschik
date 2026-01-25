@@ -1,9 +1,11 @@
 package model;
+
 import java.io.Serializable;
 
 /**
  * Repräsentiert einen schwachen Alien im Spiel.
- * Ein schwaches Alien soll die leiteste "herausforderung" für den Spieler darstellen.
+ * Ein schwaches Alien soll die leiteste "herausforderung" für den Spieler
+ * darstellen.
  */
 
 public class AlienWeak extends Alien implements Serializable {
@@ -23,7 +25,7 @@ public class AlienWeak extends Alien implements Serializable {
      *
      * @return Schaden
      */
-    
+
     @Override
     public int doDamage() {
         return 1;

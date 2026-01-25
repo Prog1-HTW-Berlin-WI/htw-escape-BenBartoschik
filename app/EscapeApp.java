@@ -1,4 +1,5 @@
 package app;
+
 import java.io.Serializable;
 
 import java.io.File;
@@ -33,7 +34,6 @@ public class EscapeApp implements Serializable {
         System.out.println("========================================\n");
 
         EscapeApp app = new EscapeApp();
-        
 
         while (app.gameRunning) {
             app.showMainMenu();
@@ -133,7 +133,6 @@ public class EscapeApp implements Serializable {
                 break;
         }
     }
-    
 
     /**
      * Startet ein neues Spiel.
@@ -149,7 +148,7 @@ public class EscapeApp implements Serializable {
 
     private void resumeGame() {
         this.game.run();
-       
+
     }
 
     /**
