@@ -11,6 +11,14 @@ import model.HTWRoom;
 import model.Hero;
 import model.Lecturer;
 
+/**
+ * Zentrale Spiellogik des Konsolen-Spiels „HTW Escape“.
+ * Der Spieler erkundet Räume, sammelt Unterschriften und hat Zufallsbegegnungen.
+ *
+ * @author Ben
+ * @author Emanuel
+ */
+
 public class EscapeGame implements Serializable {
 
     private static final long serialVersionUID = 1729389822767173584L;
@@ -29,9 +37,17 @@ public class EscapeGame implements Serializable {
     private int round = 1;
     private boolean smallRestUsedThisRound = false;
 
+    /**
+     * Erstellt ein neues Spiel.
+     */
+
     public EscapeGame() {
         initWorld();
     }
+
+    /**
+     * Initialisiert Räume und Dozenten.
+     */
 
     private void initWorld() {
         lecturers[0] = new Lecturer("Prof. Gärtner");
@@ -49,30 +65,62 @@ public class EscapeGame implements Serializable {
         rooms[5] = new HTWRoom("223", "Büro.", lecturers[4]);
     }
 
+    /**
+     * Initialisiert den Scanner.
+     */
+
     private void initScanner() {
         if (scanner == null) {
             scanner = new Scanner(System.in);
         }
     }
 
+    /**
+     * Liest eine Eingabezeile.
+     *
+     * @return Eingabe
+     */
+
     private String readInput() {
         initScanner();
         return scanner.nextLine();
     }
 
+    /**
+     * Prüft, ob das Spiel läuft.
+     *
+     * @return Spiel läuft
+     */
+
     public boolean isGameRunning() {
         return gameRunning;
     }
+
+    /**
+     * Prüft, ob das Spiel beendet ist.
+     *
+     * @return Spiel beendet
+     */
 
     public boolean isGameFinished() {
         return gameFinished;
     }
 
+     /**
+     * Gibt den Helden zurück.
+     *
+     * @return Held
+     */
+
     public Hero getHero() {
         return hero;
     }
 
+    /**
+     * Startet oder setzt das Spiel fort.
+     */
     // Hauptloop starten / Resume nach Load möglich
+
     public void run() {
         initScanner();
 
@@ -93,6 +141,10 @@ public class EscapeGame implements Serializable {
         mainMenu();
     }
 
+    /**
+     * Gibt die Menüoptionen aus.
+     */
+
     private void mainMenuoptions() {
         System.out.println("\n=== Runde " + round + " ===");
         System.out.println("(1) Hochschule erkunden");
@@ -102,6 +154,10 @@ public class EscapeGame implements Serializable {
         System.out.println("(5) Spiel verlassen");
         System.out.print("Deine Wahl: ");
     }
+
+    /**
+     * Führt das Hauptmenü aus.
+     */
 
     private void mainMenu() {
         while (gameRunning && !gameFinished) {
@@ -130,6 +186,10 @@ public class EscapeGame implements Serializable {
             }
         }
     }
+
+    /**
+     * Löst ein zufälliges Ereignis beim Erkunden aus.
+     */
 
     private void hochschuleErkunden() {
         if (gameFinished) return;
@@ -173,6 +233,10 @@ public class EscapeGame implements Serializable {
         endRound();
     }
 
+    /**
+     * Zeigt den Status des Helden an.
+     */
+
     private void heroStatusanzeigen() {
         System.out.println("\n=== HERO STATUS ===");
         System.out.println("Name: " + hero.getName());
@@ -181,6 +245,10 @@ public class EscapeGame implements Serializable {
         System.out.println("Runde: " + round);
         System.out.println("Laufzettel: " + countSignedLecturers() + "/6 Unterschriften");
     }
+
+    /**
+     * Zeigt die gesammelten Unterschriften an.
+     */
 
     private void laufzettelAnzeigen() {
         System.out.println("\n=== LAUFZETTEL ===");
@@ -192,6 +260,10 @@ public class EscapeGame implements Serializable {
             }
         }
     }
+
+    /**
+     * Führt eine Verschnaufpause aus.
+     */
 
     private void verschnaufPausemachen() {
         System.out.println("\n(1) Kleine Verschnaufpause (+3 LP, pro Runde einmal)");
@@ -226,11 +298,21 @@ public class EscapeGame implements Serializable {
         }
     }
 
+    /**
+     * Beendet das Spiel über das Menü.
+     */
+
     private void spielVerlassen() {
         System.out.println("Spiel wird verlassen...");
         gameRunning = false;
         gameFinished = true;
     }
+
+    /**
+     * Begegnung mit einem Dozenten im Raum.
+     *
+     * @param room Raum
+     */
 
     private void lecturerEncounter(HTWRoom room) {
         Lecturer lec = room.getLecturer();
@@ -252,6 +334,12 @@ public class EscapeGame implements Serializable {
         }
     }
 
+     /**
+     * Heilt den Helden.
+     *
+     * @param amount Heilpunkte
+     */
+
     private void healHero(int amount) {
         int current = hero.getHealthPoints();
         int newValue = current + amount;
@@ -259,12 +347,22 @@ public class EscapeGame implements Serializable {
         hero.setHealthPoints(newValue);
     }
 
+    /**
+     * Erstellt ein zufälliges Alien.
+     *
+     * @return Alien
+     */
+
     private Alien createRandomAlien() {
         double r = Math.random();
         if (r < 0.25) return new AlienFrendly();
         if (r < 0.65) return new AlienWeak();
         return new AlienStrong();
     }
+
+    /**
+     * Führt eine Alien-Begegnung aus.
+     */
 
     private void alienEncounter() {
         Alien alien = createRandomAlien();
@@ -323,7 +421,10 @@ public class EscapeGame implements Serializable {
         }
     }
 
-    // ✅ Rundenende + Game Over exakt nach 24 Runden
+    /**
+     * Beendet die Runde und zählt hoch.
+     */
+
     private void endRound() {
         smallRestUsedThisRound = false;
 
@@ -342,6 +443,12 @@ public class EscapeGame implements Serializable {
         round++;
     }
 
+    /**
+     * Zählt die Unterschriften.
+     *
+     * @return Anzahl
+     */
+
     private int countSignedLecturers() {
         int signed = 0;
         for (int i = 0; i < lecturers.length; i++) {
@@ -349,6 +456,10 @@ public class EscapeGame implements Serializable {
         }
         return signed;
     }
+
+    /**
+     * Startet das Endevent mit Professorin Majuntke.
+     */
 
     private void treffeProfessorinMajuntke() {
         System.out.println("\n========================================");
@@ -391,6 +502,12 @@ public class EscapeGame implements Serializable {
         gameRunning = false;
     }
 
+    /**
+     * Stellt eine zufällige Multiple-Choice-Frage.
+     *
+     * @return richtig/falsch
+     */
+
     private boolean stelleMultipleChoiceFrage() {
         int frage = (int) (Math.random() * 3);
 
@@ -422,6 +539,10 @@ public class EscapeGame implements Serializable {
         System.out.print("Antwort (1-4): ");
         return "4".equals(readInput());
     }
+
+    /**
+     * Beendet das Spiel bei Niederlage.
+     */
 
     public void GameOver() {
         if (!hero.isOperational()) {
