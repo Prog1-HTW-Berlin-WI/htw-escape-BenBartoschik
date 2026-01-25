@@ -303,10 +303,10 @@ public class EscapeGame implements Serializable {
      */
 
     private void spielVerlassen() {
-        System.out.println("Spiel wird verlassen...");
+        System.out.println("Zurück ins Hauptmenü...");
         gameRunning = false;
-        gameFinished = true;
     }
+    
 
     /**
      * Begegnung mit einem Dozenten im Raum.
