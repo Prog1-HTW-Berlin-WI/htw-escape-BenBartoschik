@@ -62,7 +62,7 @@ public class EscapeGame implements Serializable {
         rooms[2] = new HTWRoom("220", "Hörsaal", lecturers[2]);
         rooms[3] = new HTWRoom("221", "Computer Raum", lecturers[3]);
         rooms[4] = new HTWRoom("222", "Übungsraum", lecturers[4]);
-        rooms[5] = new HTWRoom("223", "Großer Hörsaal", lecturers[4]);
+        rooms[5] = new HTWRoom("223", "Großer Hörsaal", lecturers[5]);
     }
 
     /**
