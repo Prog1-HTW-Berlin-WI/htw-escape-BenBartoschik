@@ -16,19 +16,44 @@ public class HTWRoom implements Serializable {
     private String description;
     private Lecturer lecturer;
 
+    /**
+     * Erstellt einen Raum.
+     *
+     * @param identifier Kennung
+     * @param description Beschreibung
+     * @param lecturer Dozent
+     */
+
     public HTWRoom(String identifier, String description, Lecturer lecturer){
         this.identifier = identifier;
         this.description = description;
         this.lecturer = lecturer;
     }
         
+    /**
+     * Gibt die Raumkennung zurück.
+     *
+     * @return Kennung
+     */
+
         public String getIdentifier(){
             return identifier;
         }
 
+    /**
+     * Gibt die Raumbeschreibung zurück.
+     *
+     * @return Beschreibung
+     */
         public String getDescription(){
             return description;
         }
+
+    /**
+     * Gibt den Dozenten zurück.
+     *
+     * @return Dozent
+     */
         public Lecturer getLecturer(){
             return lecturer;
         }

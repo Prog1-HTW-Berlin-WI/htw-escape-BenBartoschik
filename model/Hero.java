@@ -70,6 +70,12 @@ public class Hero implements Serializable {
         }
     }
 
+    /**
+     * Prüft, ob der Held einsatzfähig ist.
+     *
+     * @return einsatzfähig
+     */
+    
     public boolean isOperational() {
         return isOperational;
     }

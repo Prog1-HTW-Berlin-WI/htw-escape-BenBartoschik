@@ -16,6 +16,15 @@ public abstract class Alien implements Serializable {
     protected boolean friendly;
     protected String greeting;
 
+    /**
+     * Erstellt ein Alien.
+     *
+     * @param name Name
+     * @param lifePoints Lebenspunkte
+     * @param friendly Freundlichkeitsstatus
+     * @param greeting Begrüßung
+     */
+
     public Alien(String name, int lifePoints, boolean friendly, String greeting) {
         this.name = name;
         this.lifePoints = lifePoints;
@@ -23,10 +32,23 @@ public abstract class Alien implements Serializable {
         this.greeting = greeting;
     }
 
+    /**
+     * Zieht dem Alien Lebenspunkte ab.
+     *
+     * @param amount Schaden
+     * @return verbleibende Lebenspunkte
+     */
+
     public int takeDamage(int amount) {
         this.lifePoints -= amount;
         return this.lifePoints;
     }
+
+    /**
+     * Prüft, ob das Alien besiegt ist.
+     *
+     * @return besiegt oder nicht
+     */
 
     public boolean isDefeated() {
         if (lifePoints < 0) {
@@ -34,22 +56,49 @@ public abstract class Alien implements Serializable {
         }
         return lifePoints <= 0;
     }
- 
+
+    /**
+     * Führt einen Angriff aus.
+     *
+     * @return Schaden
+     */
 
     public  abstract int doDamage();
+
+    /**
+     * Gibt den Namen des Aliens zurück.
+     *
+     * @return Name
+     */
 
     public String getName() {
      return name; }
 
+     /**
+     * Gibt die Lebenspunkte zurück.
+     *
+     * @return Lebenspunkte
+     */
+
      public int getLifePoints() {
     return lifePoints; }
+
+    /**
+     * Prüft, ob das Alien freundlich ist.
+     *
+     * @return freundlich oder feindlich
+     */
 
     public boolean isFriendly() {
      return friendly; }
 
+     /**
+     * Gibt die Begrüßung zurück.
+     *
+     * @return Begrüßung
+     */
+
      public String getGreeting() {
      return greeting; }
-
-
 
 }
