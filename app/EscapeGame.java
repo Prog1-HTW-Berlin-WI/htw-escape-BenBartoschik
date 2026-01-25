@@ -124,6 +124,10 @@ public class EscapeGame implements Serializable {
     public void run() {
         initScanner();
 
+        if (!gameFinished) {
+            gameRunning = true;   
+        }
+
         // Falls nach Load irgendwas fehlt (Sicherheitsnetz)
         if (rooms[0] == null || lecturers[0] == null) {
             initWorld();
