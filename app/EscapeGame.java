@@ -199,7 +199,7 @@ public class EscapeGame implements Serializable {
         if (gameFinished) return;
 
         // Majuntke erst beim NÄCHSTEN Erkunden nach 6 Unterschriften
-        if (countSignedLecturers() >= 6) {
+        if (countSignedLecturers() >= 5) {
             treffeProfessorinMajuntke();
             return;
         }
@@ -224,7 +224,7 @@ public class EscapeGame implements Serializable {
             endRound();
             return;
         }
-
+        
         // 28% Lecturer, aber nicht wenn schon unterschrieben
         Lecturer lec = room.getLecturer();
         if (lec == null || lec.hasSigned()) {
@@ -247,7 +247,7 @@ public class EscapeGame implements Serializable {
         System.out.println("Leben: " + hero.getHealthPoints());
         System.out.println("XP: " + hero.getExperiencePoints());
         System.out.println("Runde: " + round);
-        System.out.println("Laufzettel: " + countSignedLecturers() + "/6 Unterschriften");
+        System.out.println("Laufzettel: " + countSignedLecturers() + "/5 Unterschriften");
     }
 
     /**
@@ -467,7 +467,7 @@ public class EscapeGame implements Serializable {
 
     private void treffeProfessorinMajuntke() {
         System.out.println("\n========================================");
-        System.out.println("Du hast alle 6 Unterschriften gesammelt!");
+        System.out.println("Du hast alle 5 Unterschriften gesammelt!");
         System.out.println("Endlich findest du Professorin Majuntke.");
         System.out.println("Sie sagt: \"Beantworte mir eine Frage zu Grundlagen der Programmierung!\"");
         System.out.println("========================================\n");
